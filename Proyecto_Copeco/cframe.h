@@ -2,6 +2,11 @@
 #define CFRAME_H
 
 #include <QMainWindow>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlError>
+#include <QtSql/QSqlQuery>
+#include <QMessageBox>
+#include <QDebug>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class cframe; }
@@ -17,5 +22,9 @@ public:
 
 private:
     Ui::cframe *ui;
+    void setupDatabase();
+    //void createTable();
+    //void insertValues();
+    void queryTable();
 };
 #endif // CFRAME_H
