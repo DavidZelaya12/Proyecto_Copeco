@@ -8,8 +8,8 @@ cframe::cframe(QWidget *parent)
     ui->setupUi(this);
 
     setupDatabase();
-    //createTable();
-    //insertValues();
+    createTable();
+    insertValues();
     queryTable();
 }
 
@@ -37,22 +37,23 @@ void cframe::setupDatabase()
         QMessageBox::information(this, "Database Connection", "Successfully connected to the database!");
     }
 }
-/*
+
 void cframe::createTable()
 {
     QSqlQuery query;
     QString createTableSql = R"(
-        CREATE TABLE employees (
+        CREATE TABLE personas (
             id INT PRIMARY KEY,
-            name NVARCHAR(100),
-            position NVARCHAR(100)
+            dni NVARCHAR(13),
+            nombre NVARCHAR(50),
+            puesto NVARCHAR(50)
         )
     )";
 
     if (!query.exec(createTableSql)) {
         QMessageBox::critical(this, "Table Creation Error", query.lastError().text());
     } else {
-        QMessageBox::information(this, "Table Creation", "Table 'employees' created successfully.");
+        QMessageBox::information(this, "Table Creation", "Table 'personas' created successfully.");
     }
 }
 
@@ -60,27 +61,27 @@ void cframe::insertValues()
 {
     QSqlQuery query;
     QString insertValuesSql = R"(
-        INSERT INTO employees (id, name, position) VALUES
-        (3, 'Alice Brown', 'Analyst'),
-        (4, 'Bob Johnson', 'Designer')
+        INSERT INTO personas (id, dni, nombre, puesto) VALUES
+        (1, '0501199012345', 'Omar Cuz', 'Bodeguero')
     )";
 
     if (!query.exec(insertValuesSql)) {
         QMessageBox::critical(this, "Insert Values Error", query.lastError().text());
     } else {
-        QMessageBox::information(this, "Insert Values", "Values inserted into 'employees' table successfully.");
+        QMessageBox::information(this, "Insert Values", "Values inserted into 'personas' table successfully.");
     }
 }
-*/
+
 void cframe::queryTable()
 {
     QSqlQuery query;
-    if (query.exec("SELECT * FROM employees")) {
+    if (query.exec("SELECT * FROM personas")) {
         while (query.next()) {
             int id = query.value(0).toInt();
-            QString name = query.value(1).toString();
-            QString position = query.value(2).toString();
-            qDebug() << "ID:" << id << ", Name:" << name << ", Position:" << position;
+            QString dni = query.value(1).toString();
+            QString name = query.value(2).toString();
+            QString position = query.value(3).toString();
+            qDebug() << "ID:" << id << ", DNI:" << dni << ", Nombre:" << name << ", Puesto:" << position;
         }
     } else {
         QMessageBox::critical(this, "Query Execution Error", query.lastError().text());

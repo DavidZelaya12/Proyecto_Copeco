@@ -23,8 +23,8 @@ public:
 private:
     Ui::cframe *ui;
     void setupDatabase();
-    //void createTable();
-    //void insertValues();
+    void createTable();
+    void insertValues();
     void queryTable();
 };
 #endif // CFRAME_H
