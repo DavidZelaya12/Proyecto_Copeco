@@ -19,6 +19,10 @@ class cframe : public QMainWindow
 public:
     cframe(QWidget *parent = nullptr);
     void OnyOff(bool accion);
+    void MostrarInventario();
+    void MostrarSalidas();
+    void ActualizarTablas();
+
     ~cframe();
 
 private slots:

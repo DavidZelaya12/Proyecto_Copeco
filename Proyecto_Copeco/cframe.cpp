@@ -8,10 +8,11 @@ cframe::cframe(QWidget *parent)
     ui->setupUi(this);
 
     setupDatabase();
-    //createTable();
+    createTable();
     insertValues();
     queryTable();
     OnyOff(false);
+    ActualizarTablas();
 
 }
 
@@ -20,6 +21,83 @@ void cframe::OnyOff(bool accion)
     ui->TabMostrar->setVisible(accion);
     ui->TabIngresar->setTabEnabled(2,accion);
     ui->TabIngresar->setTabEnabled(1,accion);
+}
+
+void cframe::MostrarInventario()
+{
+
+    QSqlQuery query;
+    if (query.exec("SELECT * FROM inventario")) {
+        // Set up the QTableWidget
+        ui->TableInventario->setRowCount(0); // Clear any existing rows
+        ui->TableInventario->setColumnCount(4); // Set the number of columns
+        QStringList headers = {"ID", "Codigo", "Nombre", "Cantidad"};
+        ui->TableInventario->setHorizontalHeaderLabels(headers);
+
+        int row = 0;
+        while (query.next()) {
+            ui->TableInventario->insertRow(row); // Insert a new row
+
+            int id = query.value(0).toInt();
+            QString codigo = query.value(1).toString();
+            QString nombre = query.value(2).toString();
+            int cantidad = query.value(3).toInt();
+
+            ui->TableInventario->setItem(row, 0, new QTableWidgetItem(QString::number(id)));
+            ui->TableInventario->setItem(row, 1, new QTableWidgetItem(codigo));
+            ui->TableInventario->setItem(row, 2, new QTableWidgetItem(nombre));
+            ui->TableInventario->setItem(row, 3, new QTableWidgetItem(QString::number(cantidad)));
+
+            row++;
+        }
+    } else {
+        QMessageBox::critical(this, "Query Execution Error", query.lastError().text());
+    }
+}
+
+void cframe::MostrarSalidas()
+{
+    QSqlQuery query;
+    if (query.exec("SELECT * FROM ES")) {
+        // Set up the QTableWidget
+        ui->TablesEntradas->setRowCount(0); // Clear any existing rows
+        ui->TablesEntradas->setColumnCount(8); // Set the number of columns
+        QStringList headers = {"ID", "Codigo", "Nombre", "Cantidad", "Accion", "Fecha", "Remitente", "Receptor"};
+        ui->TablesEntradas->setHorizontalHeaderLabels(headers);
+
+        int row = 0;
+        while (query.next()) {
+            ui->TablesEntradas->insertRow(row); // Insert a new row
+
+            int id = query.value(0).toInt();
+            QString codigo = query.value(1).toString();
+            QString nombre = query.value(2).toString();
+            int cantidad = query.value(3).toInt();
+            QString accion = query.value(4).toString();
+            QString fecha = query.value(5).toString();
+            QString remitente = query.value(6).toString();
+            QString receptor = query.value(7).toString();
+
+            ui->TablesEntradas->setItem(row, 0, new QTableWidgetItem(QString::number(id)));
+            ui->TablesEntradas->setItem(row, 1, new QTableWidgetItem(codigo));
+            ui->TablesEntradas->setItem(row, 2, new QTableWidgetItem(nombre));
+            ui->TablesEntradas->setItem(row, 3, new QTableWidgetItem(QString::number(cantidad)));
+            ui->TablesEntradas->setItem(row, 4, new QTableWidgetItem(accion));
+            ui->TablesEntradas->setItem(row, 5, new QTableWidgetItem(fecha));
+            ui->TablesEntradas->setItem(row, 6, new QTableWidgetItem(remitente));
+            ui->TablesEntradas->setItem(row, 7, new QTableWidgetItem(receptor));
+
+            row++;
+        }
+    } else {
+        QMessageBox::critical(this, "Query Execution Error", query.lastError().text());
+    }
+}
+
+void cframe::ActualizarTablas()
+{
+    MostrarInventario();
+    MostrarSalidas();
 }
 
 cframe::~cframe()
@@ -39,7 +117,7 @@ void cframe::setupDatabase()
 
     QString connectionString = QString("Driver={ODBC Driver 18 for SQL Server};Server=tcp:%1,1433;Database=%2;Uid=%3;"
                                        "Pwd=%4;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
-                               .arg(serverName).arg(dbName).arg(username).arg(password);
+            .arg(serverName).arg(dbName).arg(username).arg(password);
     db.setDatabaseName(connectionString);
 
     if (!db.open()) {
@@ -48,16 +126,20 @@ void cframe::setupDatabase()
         QMessageBox::information(this, "Database Connection", "Successfully connected to the database!");
     }
 }
-/*
+
 void cframe::createTable()
 {
     QSqlQuery query;
     QString createTableSql = R"(
-        CREATE TABLE personas (
+        CREATE TABLE ES (
             id INT PRIMARY KEY,
-            dni NVARCHAR(13),
+            codigo NVARCHAR(4),
             nombre NVARCHAR(50),
-            puesto NVARCHAR(50)
+            cantidad INT,
+            accion NVARCHAR(10),
+            fecha NVARCHAR(10),
+            remitente NVARCHAR(50),
+            recibe NVARCHAR(50)
         )
     )";
 
@@ -67,7 +149,7 @@ void cframe::createTable()
         QMessageBox::information(this, "Table Creation", "Table 'personas' created successfully.");
     }
 }
-*/
+
 void cframe::insertValues()
 {
     QSqlQuery query;
