@@ -27,6 +27,7 @@ public:
 
     int obtenerPrimaryKey();
 
+    bool RestarInsumo(int cantidad);
     ~cframe();
 
 private slots:
@@ -35,6 +36,8 @@ private slots:
     void on_AgregarProducto_clicked();
 
     void on_pushButton_clicked();
+
+    void on_Btn_restar_clicked();
 
 private:
     Ui::cframe *ui;

@@ -143,6 +143,50 @@ bool cframe::ModificarInsumo(int cantidad)
 
 }
 
+bool cframe::RestarInsumo(int cantidad)
+{
+    QString nombreProducto = ui->NombreAgregar->text();
+    QString CodigoProducto = ui->CodigoSalida->text();
+    QSqlQuery query;
+
+    QString selectSql = "SELECT Cantidad FROM inventario WHERE Codigo = :CodigoProducto";
+    query.prepare(selectSql);
+    query.bindValue(":CodigoProducto", CodigoProducto);
+
+    if (!query.exec()) {
+        QMessageBox::critical(this, "Query Error", query.lastError().text());
+        return false;
+    }
+
+    if (query.next()) {
+        // Producto existe, restar cantidad X
+        int currentCantidad = query.value(0).toInt();
+        int nuevaCantidad = currentCantidad - cantidad;
+
+        if (nuevaCantidad < 0) {
+            QMessageBox::critical(this, "Update Error", "Cantidad insuficiente en inventario.");
+            return false;
+        }
+
+        QString updateSql = "UPDATE inventario SET Cantidad = :nuevaCantidad WHERE Codigo = :CodigoProducto";
+        query.prepare(updateSql);
+        query.bindValue(":nuevaCantidad", nuevaCantidad);
+        query.bindValue(":CodigoProducto", CodigoProducto);
+
+        if (!query.exec()) {
+            QMessageBox::critical(this, "Update Error", query.lastError().text());
+            return false;
+        } else {
+            QMessageBox::information(this, "Update Successful", "Cantidad restada exitosamente.");
+            ActualizarTablas();
+            return true;
+        }
+    } else {
+        QMessageBox::critical(this, "Query Error", "Producto no encontrado en el inventario.");
+        return false;
+    }
+}
+
 int cframe::obtenerPrimaryKey()
 {
     int ultimoId = 0;
@@ -329,5 +373,11 @@ void cframe::on_pushButton_clicked()
         ActualizarTablas();
     }
 
+}
+
+
+void cframe::on_Btn_restar_clicked()
+{
+    RestarInsumo(ui->CantidadSalida->value());
 }
 
