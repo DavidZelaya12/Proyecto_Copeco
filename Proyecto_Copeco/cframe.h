@@ -36,5 +36,6 @@ private:
     void createTable();
     void insertValues();
     void queryTable();
+    int CantInventario;
 };
 #endif // CFRAME_H

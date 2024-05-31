@@ -8,7 +8,7 @@ cframe::cframe(QWidget *parent)
     ui->setupUi(this);
 
     setupDatabase();
-    createTable();
+    //createTable();
     insertValues();
     queryTable();
     OnyOff(false);
@@ -49,10 +49,13 @@ void cframe::MostrarInventario()
             ui->TableInventario->setItem(row, 3, new QTableWidgetItem(QString::number(cantidad)));
 
             row++;
+            CantInventario++;
         }
     } else {
         QMessageBox::critical(this, "Query Execution Error", query.lastError().text());
     }
+    QString countSql = "SELECT COUNT(*) FROM inventario";
+
 }
 
 void cframe::MostrarSalidas()
@@ -212,15 +215,19 @@ void cframe::on_AgregarProducto_clicked()
     QString nombreProducto = ui->NombreAgregar->text();
     QString CodigoProducto = ui->CodigoAgregar->text();
     QSqlQuery query;
-    QString insertValuesSql = "INSERT INTO inventario (id, Codigo, nombre, Cantidad) VALUES(2, :CodigoProducto, :nombreProducto, 0)";
+    QString insertValuesSql = "INSERT INTO inventario (id, Codigo, nombre, Cantidad) VALUES(:id, :CodigoProducto, :nombreProducto, 0)";
     query.prepare(insertValuesSql);
+    query.bindValue(":id", CantInventario);
     query.bindValue(":nombreProducto", nombreProducto);
     query.bindValue(":CodigoProducto", CodigoProducto);
 
     if (!query.exec()) {
         QMessageBox::critical(this, "Insert Values Error", query.lastError().text());
+        ui->NombreAgregar->text().clear();
+        ui->CodigoAgregar->text().clear();
     } else {
         QMessageBox::information(this, "Insert Values", "Values inserted into 'inventario' table successfully.");
+        ActualizarTablas();
     }
 }
 
