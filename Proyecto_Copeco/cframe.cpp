@@ -8,7 +8,7 @@ cframe::cframe(QWidget *parent)
     ui->setupUi(this);
 
     setupDatabase();
-    createTable();
+    //createTable();
     insertValues();
     queryTable();
     OnyOff(false);
@@ -48,7 +48,7 @@ void cframe::setupDatabase()
         QMessageBox::information(this, "Database Connection", "Successfully connected to the database!");
     }
 }
-
+/*
 void cframe::createTable()
 {
     QSqlQuery query;
@@ -67,13 +67,13 @@ void cframe::createTable()
         QMessageBox::information(this, "Table Creation", "Table 'personas' created successfully.");
     }
 }
-
+*/
 void cframe::insertValues()
 {
     QSqlQuery query;
     QString insertValuesSql = R"(
         INSERT INTO personas (id, dni, nombre, puesto) VALUES
-        (1, '0501199012345', 'Omar Cuz', 'Bodeguero')
+        (2, '0501199067890', 'Virgilio', 'Bodeguero')
     )";
 
     if (!query.exec(insertValuesSql)) {
@@ -87,12 +87,27 @@ void cframe::queryTable()
 {
     QSqlQuery query;
     if (query.exec("SELECT * FROM personas")) {
+        // Set up the QTableWidget
+        ui->TableInventario->setRowCount(0); // Clear any existing rows
+        ui->TableInventario->setColumnCount(4); // Set the number of columns
+        QStringList headers = {"ID", "DNI", "Nombre", "Puesto"};
+        ui->TableInventario->setHorizontalHeaderLabels(headers);
+
+        int row = 0;
         while (query.next()) {
+            ui->TableInventario->insertRow(row); // Insert a new row
+
             int id = query.value(0).toInt();
             QString dni = query.value(1).toString();
             QString name = query.value(2).toString();
             QString position = query.value(3).toString();
-            qDebug() << "ID:" << id << ", DNI:" << dni << ", Nombre:" << name << ", Puesto:" << position;
+
+            ui->TableInventario->setItem(row, 0, new QTableWidgetItem(QString::number(id)));
+            ui->TableInventario->setItem(row, 1, new QTableWidgetItem(dni));
+            ui->TableInventario->setItem(row, 2, new QTableWidgetItem(name));
+            ui->TableInventario->setItem(row, 3, new QTableWidgetItem(position));
+
+            row++;
         }
     } else {
         QMessageBox::critical(this, "Query Execution Error", query.lastError().text());

@@ -10,15 +10,16 @@
 #define UI_CFRAME_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpinBox>
-#include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
@@ -30,7 +31,7 @@ class Ui_cframe
 {
 public:
     QWidget *centralwidget;
-    QTabWidget *tabWidget;
+    QTabWidget *TabIngresar;
     QWidget *tab;
     QLabel *label_3;
     QPushButton *botonlogearse;
@@ -61,14 +62,15 @@ public:
     QLineEdit *ResponsableSalida;
     QLabel *label_22;
     QPushButton *pushButton_3;
-    QStackedWidget *stackedWidget;
-    QWidget *page;
-    QTableWidget *TableInventario;
-    QLabel *label;
-    QWidget *page_2;
-    QTableWidget *TableEntradasySalidas;
+    QTabWidget *TabMostrar;
+    QWidget *widget;
     QLabel *label_2;
+    QTableWidget *TableInventario;
+    QWidget *tab_5;
+    QTableWidget *TablesEntradas;
+    QLabel *label;
     QMenuBar *menubar;
+    QMenu *menuCopeco;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *cframe)
@@ -78,9 +80,9 @@ public:
         cframe->resize(1297, 771);
         centralwidget = new QWidget(cframe);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
-        tabWidget = new QTabWidget(centralwidget);
-        tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
-        tabWidget->setGeometry(QRect(20, 10, 1221, 211));
+        TabIngresar = new QTabWidget(centralwidget);
+        TabIngresar->setObjectName(QString::fromUtf8("TabIngresar"));
+        TabIngresar->setGeometry(QRect(20, 10, 1221, 211));
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
         label_3 = new QLabel(tab);
@@ -98,7 +100,7 @@ public:
         label_4 = new QLabel(tab);
         label_4->setObjectName(QString::fromUtf8("label_4"));
         label_4->setGeometry(QRect(10, 100, 271, 16));
-        tabWidget->addTab(tab, QString());
+        TabIngresar->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
         NombreProducto = new QLineEdit(tab_2);
@@ -141,7 +143,7 @@ public:
         pushButton = new QPushButton(tab_2);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
         pushButton->setGeometry(QRect(670, 70, 80, 25));
-        tabWidget->addTab(tab_2, QString());
+        TabIngresar->addTab(tab_2, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QString::fromUtf8("tab_3"));
         RecibioSalida = new QLineEdit(tab_3);
@@ -172,41 +174,45 @@ public:
         pushButton_3 = new QPushButton(tab_3);
         pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
         pushButton_3->setGeometry(QRect(490, 70, 80, 25));
-        tabWidget->addTab(tab_3, QString());
-        stackedWidget = new QStackedWidget(centralwidget);
-        stackedWidget->setObjectName(QString::fromUtf8("stackedWidget"));
-        stackedWidget->setGeometry(QRect(10, 230, 1241, 481));
-        page = new QWidget();
-        page->setObjectName(QString::fromUtf8("page"));
-        TableInventario = new QTableWidget(page);
-        TableInventario->setObjectName(QString::fromUtf8("TableInventario"));
-        TableInventario->setGeometry(QRect(10, 50, 1211, 411));
-        label = new QLabel(page);
-        label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(10, 10, 171, 16));
-        stackedWidget->addWidget(page);
-        page_2 = new QWidget();
-        page_2->setObjectName(QString::fromUtf8("page_2"));
-        TableEntradasySalidas = new QTableWidget(page_2);
-        TableEntradasySalidas->setObjectName(QString::fromUtf8("TableEntradasySalidas"));
-        TableEntradasySalidas->setGeometry(QRect(10, 60, 1221, 411));
-        label_2 = new QLabel(page_2);
+        TabIngresar->addTab(tab_3, QString());
+        TabMostrar = new QTabWidget(centralwidget);
+        TabMostrar->setObjectName(QString::fromUtf8("TabMostrar"));
+        TabMostrar->setGeometry(QRect(20, 230, 1221, 481));
+        widget = new QWidget();
+        widget->setObjectName(QString::fromUtf8("widget"));
+        label_2 = new QLabel(widget);
         label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setGeometry(QRect(10, 20, 171, 16));
-        stackedWidget->addWidget(page_2);
+        label_2->setGeometry(QRect(10, 6, 171, 20));
+        TableInventario = new QTableWidget(widget);
+        TableInventario->setObjectName(QString::fromUtf8("TableInventario"));
+        TableInventario->setGeometry(QRect(10, 30, 1171, 391));
+        TabMostrar->addTab(widget, QString());
+        tab_5 = new QWidget();
+        tab_5->setObjectName(QString::fromUtf8("tab_5"));
+        TablesEntradas = new QTableWidget(tab_5);
+        TablesEntradas->setObjectName(QString::fromUtf8("TablesEntradas"));
+        TablesEntradas->setGeometry(QRect(10, 30, 1171, 391));
+        label = new QLabel(tab_5);
+        label->setObjectName(QString::fromUtf8("label"));
+        label->setGeometry(QRect(10, 6, 171, 20));
+        TabMostrar->addTab(tab_5, QString());
         cframe->setCentralWidget(centralwidget);
         menubar = new QMenuBar(cframe);
         menubar->setObjectName(QString::fromUtf8("menubar"));
         menubar->setGeometry(QRect(0, 0, 1297, 25));
+        menuCopeco = new QMenu(menubar);
+        menuCopeco->setObjectName(QString::fromUtf8("menuCopeco"));
         cframe->setMenuBar(menubar);
         statusbar = new QStatusBar(cframe);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         cframe->setStatusBar(statusbar);
 
+        menubar->addAction(menuCopeco->menuAction());
+
         retranslateUi(cframe);
 
-        tabWidget->setCurrentIndex(0);
-        stackedWidget->setCurrentIndex(0);
+        TabIngresar->setCurrentIndex(0);
+        TabMostrar->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(cframe);
@@ -218,7 +224,7 @@ public:
         label_3->setText(QApplication::translate("cframe", "Ingrese su usuario", nullptr));
         botonlogearse->setText(QApplication::translate("cframe", "Ingresar", nullptr));
         label_4->setText(QApplication::translate("cframe", "Ingrese su contrase\303\261a", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("cframe", "Login", nullptr));
+        TabIngresar->setTabText(TabIngresar->indexOf(tab), QApplication::translate("cframe", "Login", nullptr));
         label_5->setText(QApplication::translate("cframe", "Nombre producto", nullptr));
         label_6->setText(QApplication::translate("cframe", "Procedencia", nullptr));
         label_7->setText(QApplication::translate("cframe", "Nombre del Responsable", nullptr));
@@ -226,15 +232,18 @@ public:
         label_9->setText(QApplication::translate("cframe", "Codigo", nullptr));
         label_10->setText(QApplication::translate("cframe", "Cantidad", nullptr));
         pushButton->setText(QApplication::translate("cframe", "Registrar", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("cframe", "Entrada", nullptr));
+        TabIngresar->setTabText(TabIngresar->indexOf(tab_2), QApplication::translate("cframe", "Entrada", nullptr));
         label_19->setText(QApplication::translate("cframe", "Cantidad a retirar", nullptr));
         label_20->setText(QApplication::translate("cframe", "Entregado a", nullptr));
         label_21->setText(QApplication::translate("cframe", "Codigo del producto", nullptr));
         label_22->setText(QApplication::translate("cframe", "Responsable de bodega", nullptr));
         pushButton_3->setText(QApplication::translate("cframe", "Registrar", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("cframe", "Salida", nullptr));
-        label->setText(QApplication::translate("cframe", "Inventario Actual", nullptr));
-        label_2->setText(QApplication::translate("cframe", "Entradas / Salidas", nullptr));
+        TabIngresar->setTabText(TabIngresar->indexOf(tab_3), QApplication::translate("cframe", "Salida", nullptr));
+        label_2->setText(QApplication::translate("cframe", "Inventario", nullptr));
+        TabMostrar->setTabText(TabMostrar->indexOf(widget), QApplication::translate("cframe", "Inventario", nullptr));
+        label->setText(QApplication::translate("cframe", "Entradas/Salidas", nullptr));
+        TabMostrar->setTabText(TabMostrar->indexOf(tab_5), QApplication::translate("cframe", "Entradas/Salidas", nullptr));
+        menuCopeco->setTitle(QApplication::translate("cframe", "Copeco", nullptr));
     } // retranslateUi
 
 };
