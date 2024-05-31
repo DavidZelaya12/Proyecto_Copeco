@@ -158,7 +158,7 @@
      <attribute name="title">
       <string>Entrada</string>
      </attribute>
-     <widget class="QLineEdit" name="Procedencia">
+     <widget class="QLineEdit" name="NombreRemitente">
       <property name="geometry">
        <rect>
         <x>10</x>

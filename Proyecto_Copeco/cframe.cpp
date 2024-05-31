@@ -292,9 +292,9 @@ void cframe::on_pushButton_clicked()
     ModificarInsumo(ui->cantidadentrada->value());
     std::cout<<std::endl<<CantInventario<<std::endl;
     QString nombreProducto = ui->NombreAgregar->text();
-    QString CodigoProducto = ui->CodigoAgregar->text();
+    QString CodigoProducto = ui->CodigoEntrada->text();
     QString cantidad= ui->cantidadentrada->text();
-    QString remitentes = ui->Procedencia->text();
+    QString remitentes = ui->NombreRemitente->text();
     QString recibe = ui->ResponsableEntrada->text();
     auto now = std::chrono::system_clock::now();
     std::time_t now_time = std::chrono::system_clock::to_time_t(now);
@@ -310,7 +310,7 @@ void cframe::on_pushButton_clicked()
     QString fecha = QString::fromStdString(fec);
 
     QSqlQuery query;
-    QString insertValuesSql = "INSERT INTO inventario (id, codigo, nombre, cantidad, accion, fecha, remitentes, recibe) VALUES(:id, :codigo, :nombreProducto, :cantidad, 'Entrada', :fecha, :remitentes, :recibe)";
+    QString insertValuesSql = "INSERT INTO ES (id, codigo, nombre, cantidad, accion, fecha, remitente, recibe) VALUES(:id, :codigo, :nombreProducto, :cantidad, 'Entrada', :fecha, :remitentes, :recibe)";
     query.prepare(insertValuesSql);
     query.bindValue(":id", 1);
     query.bindValue(":codigo", CodigoProducto);
