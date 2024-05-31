@@ -206,3 +206,21 @@ void cframe::on_botonlogearse_clicked()
 
 }
 
+
+void cframe::on_AgregarProducto_clicked()
+{
+    QString nombreProducto = ui->NombreAgregar->text();
+    QString CodigoProducto = ui->CodigoAgregar->text();
+    QSqlQuery query;
+    QString insertValuesSql = "INSERT INTO inventario (id, Codigo, nombre, Cantidad) VALUES(2, :CodigoProducto, :nombreProducto, 0)";
+    query.prepare(insertValuesSql);
+    query.bindValue(":nombreProducto", nombreProducto);
+    query.bindValue(":CodigoProducto", CodigoProducto);
+
+    if (!query.exec()) {
+        QMessageBox::critical(this, "Insert Values Error", query.lastError().text());
+    } else {
+        QMessageBox::information(this, "Insert Values", "Values inserted into 'inventario' table successfully.");
+    }
+}
+

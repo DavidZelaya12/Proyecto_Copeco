@@ -28,6 +28,8 @@ public:
 private slots:
     void on_botonlogearse_clicked();
 
+    void on_AgregarProducto_clicked();
+
 private:
     Ui::cframe *ui;
     void setupDatabase();
