@@ -11,12 +11,23 @@ cframe::cframe(QWidget *parent)
     createTable();
     insertValues();
     queryTable();
+    OnyOff(false);
+
+}
+
+void cframe::OnyOff(bool accion)
+{
+    ui->TabMostrar->setVisible(accion);
+    ui->TabIngresar->setTabEnabled(2,accion);
+    ui->TabIngresar->setTabEnabled(1,accion);
 }
 
 cframe::~cframe()
 {
     delete ui;
 }
+
+
 
 void cframe::setupDatabase()
 {
@@ -86,5 +97,15 @@ void cframe::queryTable()
     } else {
         QMessageBox::critical(this, "Query Execution Error", query.lastError().text());
     }
+}
+
+
+void cframe::on_botonlogearse_clicked()
+{
+
+    if(true){
+        OnyOff(true);
+    }
+
 }
 

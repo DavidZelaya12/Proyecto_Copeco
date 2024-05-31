@@ -18,7 +18,11 @@ class cframe : public QMainWindow
 
 public:
     cframe(QWidget *parent = nullptr);
+    void OnyOff(bool accion);
     ~cframe();
+
+private slots:
+    void on_botonlogearse_clicked();
 
 private:
     Ui::cframe *ui;
