@@ -1,15 +1,18 @@
 #include "cframe.h"
 #include "ui_cframe.h"
 #include <iostream>
+#include <chrono>
+#include <iomanip>
+#include <sstream>
 
 cframe::cframe(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::cframe)
 {
     ui->setupUi(this);
- //   CantInventario = obtenerPrimaryKey();
+    //CantInventario = obtenerPrimaryKey();
     setupDatabase();
-  //  createTable();
+    //createTable();
     //insertValues();
     //queryTable();
     OnyOff(false);
@@ -39,12 +42,12 @@ void cframe::MostrarInventario()
         while (query.next()) {
             ui->TableInventario->insertRow(row); // Insert a new row
 
-         //   int id = query.value(0).toInt();
+            //   int id = query.value(0).toInt();
             QString codigo = query.value(0).toString();
             QString nombre = query.value(1).toString();
             int cantidad = query.value(2).toInt();
 
-          //  ui->TableInventario->setItem(row, 0, new QTableWidgetItem(QString::number(id)));
+            //  ui->TableInventario->setItem(row, 0, new QTableWidgetItem(QString::number(id)));
             ui->TableInventario->setItem(row, 0, new QTableWidgetItem(codigo));
             ui->TableInventario->setItem(row, 1, new QTableWidgetItem(nombre));
             ui->TableInventario->setItem(row, 2, new QTableWidgetItem(QString::number(cantidad)));
@@ -270,7 +273,6 @@ void cframe::on_AgregarProducto_clicked()
     QSqlQuery query;
     QString insertValuesSql = "INSERT INTO inventario (Codigo, nombre, Cantidad) VALUES(:CodigoProducto, :nombreProducto, 0)";
     query.prepare(insertValuesSql);
-    //query.bindValue(":id", CantInventario);
     query.bindValue(":nombreProducto", nombreProducto);
     query.bindValue(":CodigoProducto", CodigoProducto);
 
@@ -288,5 +290,44 @@ void cframe::on_AgregarProducto_clicked()
 void cframe::on_pushButton_clicked()
 {
     ModificarInsumo(ui->cantidadentrada->value());
+    std::cout<<std::endl<<CantInventario<<std::endl;
+    QString nombreProducto = ui->NombreAgregar->text();
+    QString CodigoProducto = ui->CodigoAgregar->text();
+    QString cantidad= ui->cantidadentrada->text();
+    QString remitentes = ui->Procedencia->text();
+    QString recibe = ui->ResponsableEntrada->text();
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+
+    // Convertir el tiempo a una estructura tm de manera segura
+    std::tm now_tm;
+    localtime_r(&now_time, &now_tm);
+
+    // Usar ostringstream para formatear la fecha en dd/MM/yyyy
+    std::ostringstream oss;
+    oss << std::put_time(&now_tm, "%d/%m/%Y");
+    std::string fec = oss.str();
+    QString fecha = QString::fromStdString(fec);
+
+    QSqlQuery query;
+    QString insertValuesSql = "INSERT INTO inventario (id, codigo, nombre, cantidad, accion, fecha, remitentes, recibe) VALUES(:id, :codigo, :nombreProducto, :cantidad, 'Entrada', :fecha, :remitentes, :recibe)";
+    query.prepare(insertValuesSql);
+    query.bindValue(":id", 1);
+    query.bindValue(":codigo", CodigoProducto);
+    query.bindValue(":nombreProducto", nombreProducto);
+    query.bindValue(":cantidad", cantidad.toInt());
+    query.bindValue(":fecha", fecha);
+    query.bindValue(":remitentes", remitentes);
+    query.bindValue(":recibe", recibe);
+
+    if (!query.exec()) {
+        QMessageBox::critical(this, "Insert Values Error", query.lastError().text());
+        ui->NombreAgregar->text().clear();
+        ui->CodigoAgregar->text().clear();
+    } else {
+        QMessageBox::information(this, "Insert Values", "Values inserted into 'inventario' table successfully.");
+        ActualizarTablas();
+    }
+
 }
 

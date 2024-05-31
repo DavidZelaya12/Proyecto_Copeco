@@ -49,7 +49,7 @@ public:
     QLabel *label_6;
     QLineEdit *ResponsableEntrada;
     QLabel *label_7;
-    QSpinBox *CantidadEntrada;
+    QSpinBox *cantidadentrada;
     QLabel *label_9;
     QLineEdit *CodigoEntrada;
     QLabel *label_10;
@@ -135,10 +135,10 @@ public:
         label_7 = new QLabel(tab_2);
         label_7->setObjectName(QString::fromUtf8("label_7"));
         label_7->setGeometry(QRect(10, 10, 271, 16));
-        CantidadEntrada = new QSpinBox(tab_2);
-        CantidadEntrada->setObjectName(QString::fromUtf8("CantidadEntrada"));
-        CantidadEntrada->setGeometry(QRect(300, 110, 46, 25));
-        CantidadEntrada->setMinimum(1);
+        cantidadentrada = new QSpinBox(tab_2);
+        cantidadentrada->setObjectName(QString::fromUtf8("cantidadentrada"));
+        cantidadentrada->setGeometry(QRect(300, 110, 46, 25));
+        cantidadentrada->setMinimum(1);
         label_9 = new QLabel(tab_2);
         label_9->setObjectName(QString::fromUtf8("label_9"));
         label_9->setGeometry(QRect(300, 10, 271, 16));
@@ -219,7 +219,7 @@ public:
 
         retranslateUi(cframe);
 
-        TabIngresar->setCurrentIndex(1);
+        TabIngresar->setCurrentIndex(2);
         TabMostrar->setCurrentIndex(0);
 
 
