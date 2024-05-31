@@ -23,12 +23,18 @@ public:
     void MostrarSalidas();
     void ActualizarTablas();
 
+    bool ModificarInsumo(int cantidad);
+
+    int obtenerPrimaryKey();
+
     ~cframe();
 
 private slots:
     void on_botonlogearse_clicked();
 
     void on_AgregarProducto_clicked();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::cframe *ui;

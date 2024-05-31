@@ -1,16 +1,17 @@
 #include "cframe.h"
 #include "ui_cframe.h"
+#include <iostream>
 
 cframe::cframe(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::cframe)
 {
     ui->setupUi(this);
-
+ //   CantInventario = obtenerPrimaryKey();
     setupDatabase();
-    //createTable();
-    insertValues();
-    queryTable();
+  //  createTable();
+    //insertValues();
+    //queryTable();
     OnyOff(false);
     ActualizarTablas();
 
@@ -30,26 +31,26 @@ void cframe::MostrarInventario()
     if (query.exec("SELECT * FROM inventario")) {
         // Set up the QTableWidget
         ui->TableInventario->setRowCount(0); // Clear any existing rows
-        ui->TableInventario->setColumnCount(4); // Set the number of columns
-        QStringList headers = {"ID", "Codigo", "Nombre", "Cantidad"};
+        ui->TableInventario->setColumnCount(3); // Set the number of columns
+        QStringList headers = {"Codigo", "Nombre", "Cantidad"};
         ui->TableInventario->setHorizontalHeaderLabels(headers);
 
         int row = 0;
         while (query.next()) {
             ui->TableInventario->insertRow(row); // Insert a new row
 
-            int id = query.value(0).toInt();
-            QString codigo = query.value(1).toString();
-            QString nombre = query.value(2).toString();
-            int cantidad = query.value(3).toInt();
+         //   int id = query.value(0).toInt();
+            QString codigo = query.value(0).toString();
+            QString nombre = query.value(1).toString();
+            int cantidad = query.value(2).toInt();
 
-            ui->TableInventario->setItem(row, 0, new QTableWidgetItem(QString::number(id)));
-            ui->TableInventario->setItem(row, 1, new QTableWidgetItem(codigo));
-            ui->TableInventario->setItem(row, 2, new QTableWidgetItem(nombre));
-            ui->TableInventario->setItem(row, 3, new QTableWidgetItem(QString::number(cantidad)));
+          //  ui->TableInventario->setItem(row, 0, new QTableWidgetItem(QString::number(id)));
+            ui->TableInventario->setItem(row, 0, new QTableWidgetItem(codigo));
+            ui->TableInventario->setItem(row, 1, new QTableWidgetItem(nombre));
+            ui->TableInventario->setItem(row, 2, new QTableWidgetItem(QString::number(cantidad)));
 
             row++;
-            CantInventario++;
+            // CantInventario++;
         }
     } else {
         QMessageBox::critical(this, "Query Execution Error", query.lastError().text());
@@ -103,6 +104,62 @@ void cframe::ActualizarTablas()
     MostrarSalidas();
 }
 
+bool cframe::ModificarInsumo(int cantidad)
+{
+    QString nombreProducto = ui->NombreAgregar->text();
+    QString CodigoProducto = ui->CodigoAgregar->text();
+    QSqlQuery query;
+
+    QString selectSql = "SELECT Cantidad FROM inventario WHERE Codigo = :CodigoProducto";
+    query.prepare(selectSql);
+    query.bindValue(":CodigoProducto", CodigoProducto);
+
+    if (!query.exec()) {
+        QMessageBox::critical(this, "Query Error", query.lastError().text());
+    }
+
+    if (query.next()) {
+        // Producto existe, sumar cantidad X
+        int currentCantidad = query.value(0).toInt();
+
+        QString updateSql = "UPDATE inventario SET Cantidad = :nuevaCantidad WHERE Codigo = :CodigoProducto";
+        query.prepare(updateSql);
+        query.bindValue(":nuevaCantidad", currentCantidad + cantidad);
+        query.bindValue(":CodigoProducto", CodigoProducto);
+
+        if (!query.exec()) {
+            QMessageBox::critical(this, "Update Error", query.lastError().text());
+        } else {
+            QMessageBox::information(this, "Update Successful", "Cantidad actualizada exitosamente.");
+            ActualizarTablas();
+            return true;
+        }
+    }else{
+        return false;
+    }
+
+}
+
+int cframe::obtenerPrimaryKey()
+{
+    int ultimoId = 0;
+    QSqlQuery query;
+
+    // Obtener el último valor de la columna ID
+    QString selectLastIdSql = "SELECT MAX(id) FROM inventario";
+    query.prepare(selectLastIdSql);
+
+    if (!query.exec()) {
+        QMessageBox::critical(this, "Query Error", query.lastError().text());
+    } else {
+        if (query.next()) {
+            ultimoId = query.value(0).toInt();
+        }
+    }
+
+    return ultimoId;
+}
+
 cframe::~cframe()
 {
     delete ui;
@@ -134,15 +191,10 @@ void cframe::createTable()
 {
     QSqlQuery query;
     QString createTableSql = R"(
-        CREATE TABLE ES (
-            id INT PRIMARY KEY,
-            codigo NVARCHAR(4),
+        CREATE TABLE inventario(
+            Codigo NVARCHAR(4) PRIMARY KEY,
             nombre NVARCHAR(50),
-            cantidad INT,
-            accion NVARCHAR(10),
-            fecha NVARCHAR(10),
-            remitente NVARCHAR(50),
-            recibe NVARCHAR(50)
+            Cantidad int
         )
     )";
 
@@ -212,12 +264,13 @@ void cframe::on_botonlogearse_clicked()
 
 void cframe::on_AgregarProducto_clicked()
 {
+    std::cout<<std::endl<<CantInventario<<std::endl;
     QString nombreProducto = ui->NombreAgregar->text();
     QString CodigoProducto = ui->CodigoAgregar->text();
     QSqlQuery query;
-    QString insertValuesSql = "INSERT INTO inventario (id, Codigo, nombre, Cantidad) VALUES(:id, :CodigoProducto, :nombreProducto, 0)";
+    QString insertValuesSql = "INSERT INTO inventario (Codigo, nombre, Cantidad) VALUES(:CodigoProducto, :nombreProducto, 0)";
     query.prepare(insertValuesSql);
-    query.bindValue(":id", CantInventario);
+    //query.bindValue(":id", CantInventario);
     query.bindValue(":nombreProducto", nombreProducto);
     query.bindValue(":CodigoProducto", CodigoProducto);
 
@@ -229,5 +282,11 @@ void cframe::on_AgregarProducto_clicked()
         QMessageBox::information(this, "Insert Values", "Values inserted into 'inventario' table successfully.");
         ActualizarTablas();
     }
+}
+
+
+void cframe::on_pushButton_clicked()
+{
+    ModificarInsumo(ui->cantidadentrada->value());
 }
 
