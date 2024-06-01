@@ -8,6 +8,9 @@
 #include <QMessageBox>
 #include <QDebug>
 
+using std::string;
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class cframe; }
 QT_END_NAMESPACE
@@ -24,6 +27,7 @@ public:
     void ActualizarTablas();
 
     bool ModificarInsumo(int cantidad);
+    QString BuscarPorCodigo(QString codigo);
 
     int obtenerPrimaryKey();
 

@@ -66,15 +66,14 @@ void cframe::MostrarSalidas()
 {
     QSqlQuery query;
     if (query.exec("SELECT * FROM ES")) {
-        // Set up the QTableWidget
-        ui->TablesEntradas->setRowCount(0); // Clear any existing rows
-        ui->TablesEntradas->setColumnCount(8); // Set the number of columns
+        ui->TablesEntradas->setRowCount(0);
+        ui->TablesEntradas->setColumnCount(8);
         QStringList headers = {"ID", "Codigo", "Nombre", "Cantidad", "Accion", "Fecha", "Remitente", "Receptor"};
         ui->TablesEntradas->setHorizontalHeaderLabels(headers);
 
         int row = 0;
         while (query.next()) {
-            ui->TablesEntradas->insertRow(row); // Insert a new row
+            ui->TablesEntradas->insertRow(row);
 
             int id = query.value(0).toInt();
             QString codigo = query.value(1).toString();
@@ -141,6 +140,30 @@ bool cframe::ModificarInsumo(int cantidad)
         return false;
     }
 
+}
+
+QString cframe::BuscarPorCodigo(QString codigo)
+{
+    QSqlQuery query;
+    QString nombreProducto;
+
+    // Consulta para obtener el nombre del producto basado en el código
+    QString selectSql = "SELECT nombre FROM inventario WHERE Codigo = :codigo";
+    query.prepare(selectSql);
+    query.bindValue(":codigo", codigo);
+
+    if (!query.exec()) {
+        QMessageBox::critical(nullptr, "Query Error", query.lastError().text());
+        return QString(); // Retorna una cadena vacía en caso de error
+    }
+
+    if (query.next()) {
+        nombreProducto = query.value(0).toString();
+    } else {
+        QMessageBox::information(nullptr, "No Result", "No se encontró un producto con el código especificado.");
+    }
+
+    return nombreProducto;
 }
 
 bool cframe::RestarInsumo(int cantidad)
@@ -335,8 +358,8 @@ void cframe::on_pushButton_clicked()
 {
     ModificarInsumo(ui->cantidadentrada->value());
     std::cout<<std::endl<<CantInventario<<std::endl;
-    QString nombreProducto = ui->NombreAgregar->text();
     QString CodigoProducto = ui->CodigoEntrada->text();
+    QString nombreProducto = BuscarPorCodigo(CodigoProducto);
     QString cantidad= ui->cantidadentrada->text();
     QString remitentes = ui->NombreRemitente->text();
     QString recibe = ui->ResponsableEntrada->text();
@@ -356,7 +379,7 @@ void cframe::on_pushButton_clicked()
     QSqlQuery query;
     QString insertValuesSql = "INSERT INTO ES (id, codigo, nombre, cantidad, accion, fecha, remitente, recibe) VALUES(:id, :codigo, :nombreProducto, :cantidad, 'Entrada', :fecha, :remitentes, :recibe)";
     query.prepare(insertValuesSql);
-    query.bindValue(":id", 1);
+    query.bindValue(":id", 2);
     query.bindValue(":codigo", CodigoProducto);
     query.bindValue(":nombreProducto", nombreProducto);
     query.bindValue(":cantidad", cantidad.toInt());
