@@ -53,6 +53,7 @@ public:
     QPushButton *pushButton;
     QTableWidget *TablesEntradas;
     QLabel *label_3;
+    QPushButton *CerrarSesion_2;
     QWidget *tab_3;
     QLineEdit *RecibioSalida;
     QLineEdit *CodigoSalida;
@@ -63,6 +64,7 @@ public:
     QPushButton *Btn_restar;
     QLabel *label_4;
     QTableWidget *TablesEntradas_2;
+    QPushButton *CerrarSesion_3;
     QStatusBar *statusbar;
     QMenuBar *menubar;
 
@@ -208,12 +210,16 @@ public:
         pushButton->setFlat(true);
         TablesEntradas = new QTableWidget(tab_2);
         TablesEntradas->setObjectName(QString::fromUtf8("TablesEntradas"));
-        TablesEntradas->setGeometry(QRect(50, 250, 921, 311));
+        TablesEntradas->setGeometry(QRect(50, 260, 921, 271));
         TablesEntradas->setFrameShape(QFrame::NoFrame);
         label_3 = new QLabel(tab_2);
         label_3->setObjectName(QString::fromUtf8("label_3"));
         label_3->setGeometry(QRect(0, 0, 1001, 581));
-        label_3->setPixmap(QPixmap(QString::fromUtf8("../../../../../ierbu (4).png")));
+        label_3->setPixmap(QPixmap(QString::fromUtf8("../../../../../ierbu (7).png")));
+        CerrarSesion_2 = new QPushButton(tab_2);
+        CerrarSesion_2->setObjectName(QString::fromUtf8("CerrarSesion_2"));
+        CerrarSesion_2->setGeometry(QRect(930, 10, 51, 41));
+        CerrarSesion_2->setFlat(true);
         TabIngresar->addTab(tab_2, QString());
         label_3->raise();
         NombreRemitente->raise();
@@ -223,6 +229,7 @@ public:
         CodigoEntrada->raise();
         TablesEntradas->raise();
         pushButton->raise();
+        CerrarSesion_2->raise();
         tab_3 = new QWidget();
         tab_3->setObjectName(QString::fromUtf8("tab_3"));
         RecibioSalida = new QLineEdit(tab_3);
@@ -269,11 +276,15 @@ public:
         label_4 = new QLabel(tab_3);
         label_4->setObjectName(QString::fromUtf8("label_4"));
         label_4->setGeometry(QRect(0, 0, 1001, 581));
-        label_4->setPixmap(QPixmap(QString::fromUtf8("../../../../../ierbu (5).png")));
+        label_4->setPixmap(QPixmap(QString::fromUtf8("../../../../../ierbu (6).png")));
         TablesEntradas_2 = new QTableWidget(tab_3);
         TablesEntradas_2->setObjectName(QString::fromUtf8("TablesEntradas_2"));
-        TablesEntradas_2->setGeometry(QRect(50, 260, 921, 311));
+        TablesEntradas_2->setGeometry(QRect(50, 260, 921, 261));
         TablesEntradas_2->setFrameShape(QFrame::NoFrame);
+        CerrarSesion_3 = new QPushButton(tab_3);
+        CerrarSesion_3->setObjectName(QString::fromUtf8("CerrarSesion_3"));
+        CerrarSesion_3->setGeometry(QRect(930, 10, 51, 41));
+        CerrarSesion_3->setFlat(true);
         TabIngresar->addTab(tab_3, QString());
         label_4->raise();
         RecibioSalida->raise();
@@ -284,6 +295,7 @@ public:
         label_22->raise();
         Btn_restar->raise();
         TablesEntradas_2->raise();
+        CerrarSesion_3->raise();
         tabCentral->addTab(MenuPrin_Tab, QString());
         cframe->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(cframe);
@@ -297,7 +309,7 @@ public:
         retranslateUi(cframe);
 
         tabCentral->setCurrentIndex(1);
-        TabIngresar->setCurrentIndex(0);
+        TabIngresar->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(cframe);
@@ -316,11 +328,13 @@ public:
         label_9->setText(QApplication::translate("cframe", "Codigo", nullptr));
         pushButton->setText(QString());
         label_3->setText(QString());
+        CerrarSesion_2->setText(QString());
         TabIngresar->setTabText(TabIngresar->indexOf(tab_2), QApplication::translate("cframe", "Entrada", nullptr));
         label_21->setText(QApplication::translate("cframe", "Codigo del producto", nullptr));
         label_22->setText(QApplication::translate("cframe", "Responsable de bodega", nullptr));
         Btn_restar->setText(QString());
         label_4->setText(QString());
+        CerrarSesion_3->setText(QString());
         TabIngresar->setTabText(TabIngresar->indexOf(tab_3), QApplication::translate("cframe", "Salida", nullptr));
         tabCentral->setTabText(tabCentral->indexOf(MenuPrin_Tab), QApplication::translate("cframe", "Menu Principal", nullptr));
     } // retranslateUi
