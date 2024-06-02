@@ -15,16 +15,8 @@ cframe::cframe(QWidget *parent)
     //createTable();
     //insertValues();
     //queryTable();
-    OnyOff(false);
     ActualizarTablas();
-
-}
-
-void cframe::OnyOff(bool accion)
-{
-    ui->TabMostrar->setVisible(accion);
-    ui->TabIngresar->setTabEnabled(2,accion);
-    ui->TabIngresar->setTabEnabled(1,accion);
+    ui->tabCentral->setTabEnabled(1, false);
 }
 
 void cframe::MostrarInventario()
@@ -66,6 +58,44 @@ void cframe::MostrarSalidas()
 {
     QSqlQuery query;
     if (query.exec("SELECT * FROM ES")) {
+        ui->TablesEntradas_2->setRowCount(0);
+        ui->TablesEntradas_2->setColumnCount(8);
+        QStringList headers = {"ID", "Codigo", "Nombre", "Cantidad", "Accion", "Fecha", "Remitente", "Receptor"};
+        ui->TablesEntradas_2->setHorizontalHeaderLabels(headers);
+
+        int row = 0;
+        while (query.next()) {
+            ui->TablesEntradas_2->insertRow(row);
+
+            int id = query.value(0).toInt();
+            QString codigo = query.value(1).toString();
+            QString nombre = query.value(2).toString();
+            int cantidad = query.value(3).toInt();
+            QString accion = query.value(4).toString();
+            QString fecha = query.value(5).toString();
+            QString remitente = query.value(6).toString();
+            QString receptor = query.value(7).toString();
+
+            ui->TablesEntradas_2->setItem(row, 0, new QTableWidgetItem(QString::number(id)));
+            ui->TablesEntradas_2->setItem(row, 1, new QTableWidgetItem(codigo));
+            ui->TablesEntradas_2->setItem(row, 2, new QTableWidgetItem(nombre));
+            ui->TablesEntradas_2->setItem(row, 3, new QTableWidgetItem(QString::number(cantidad)));
+            ui->TablesEntradas_2->setItem(row, 4, new QTableWidgetItem(accion));
+            ui->TablesEntradas_2->setItem(row, 5, new QTableWidgetItem(fecha));
+            ui->TablesEntradas_2->setItem(row, 6, new QTableWidgetItem(remitente));
+            ui->TablesEntradas_2->setItem(row, 7, new QTableWidgetItem(receptor));
+
+            row++;
+        }
+    } else {
+        QMessageBox::critical(this, "Query Execution Error", query.lastError().text());
+    }
+}
+
+void cframe::MostrarEntradas()
+{
+    QSqlQuery query;
+    if (query.exec("SELECT * FROM ES")) {
         ui->TablesEntradas->setRowCount(0);
         ui->TablesEntradas->setColumnCount(8);
         QStringList headers = {"ID", "Codigo", "Nombre", "Cantidad", "Accion", "Fecha", "Remitente", "Receptor"};
@@ -104,6 +134,7 @@ void cframe::ActualizarTablas()
 {
     MostrarInventario();
     MostrarSalidas();
+    MostrarEntradas();
 }
 
 bool cframe::ModificarInsumo(int cantidad)
@@ -324,10 +355,9 @@ void cframe::queryTable()
 
 void cframe::on_botonlogearse_clicked()
 {
-
-    if(true){
-        OnyOff(true);
-    }
+    ui->tabCentral->setTabEnabled(1,true);
+    ui->tabCentral->setCurrentIndex(1);
+    ui->tabCentral->setTabEnabled(0,false);
 
 }
 
@@ -402,5 +432,13 @@ void cframe::on_pushButton_clicked()
 void cframe::on_Btn_restar_clicked()
 {
     RestarInsumo(ui->CantidadSalida->value());
+}
+
+
+void cframe::on_CerrarSesion_clicked()
+{
+    ui->tabCentral->setTabEnabled(0,true);
+    ui->tabCentral->setCurrentIndex(0);
+    ui->tabCentral->setTabEnabled(1,false);
 }
 

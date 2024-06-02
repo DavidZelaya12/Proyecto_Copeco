@@ -21,16 +21,13 @@ class cframe : public QMainWindow
 
 public:
     cframe(QWidget *parent = nullptr);
-    void OnyOff(bool accion);
     void MostrarInventario();
     void MostrarSalidas();
+    void MostrarEntradas();
     void ActualizarTablas();
-
     bool ModificarInsumo(int cantidad);
     QString BuscarPorCodigo(QString codigo);
-
     int obtenerPrimaryKey();
-
     bool RestarInsumo(int cantidad);
     ~cframe();
 
@@ -42,6 +39,8 @@ private slots:
     void on_pushButton_clicked();
 
     void on_Btn_restar_clicked();
+
+    void on_CerrarSesion_clicked();
 
 private:
     Ui::cframe *ui;
