@@ -207,7 +207,7 @@
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_4">
        <attribute name="title">
@@ -606,6 +606,22 @@
          <pixmap>../../../../../ierbu (4).png</pixmap>
         </property>
        </widget>
+       <widget class="QPushButton" name="CerrarSesion_2">
+        <property name="geometry">
+         <rect>
+          <x>930</x>
+          <y>10</y>
+          <width>51</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
        <zorder>label_3</zorder>
        <zorder>NombreRemitente</zorder>
        <zorder>ResponsableEntrada</zorder>
@@ -614,6 +630,7 @@
        <zorder>CodigoEntrada</zorder>
        <zorder>TablesEntradas</zorder>
        <zorder>pushButton</zorder>
+       <zorder>CerrarSesion_2</zorder>
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
@@ -853,6 +870,22 @@
          <enum>QFrame::NoFrame</enum>
         </property>
        </widget>
+       <widget class="QPushButton" name="CerrarSesion_3">
+        <property name="geometry">
+         <rect>
+          <x>930</x>
+          <y>10</y>
+          <width>51</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
        <zorder>label_4</zorder>
        <zorder>RecibioSalida</zorder>
        <zorder>CodigoSalida</zorder>
@@ -862,6 +895,7 @@
        <zorder>label_22</zorder>
        <zorder>Btn_restar</zorder>
        <zorder>TablesEntradas_2</zorder>
+       <zorder>CerrarSesion_3</zorder>
       </widget>
      </widget>
     </widget>

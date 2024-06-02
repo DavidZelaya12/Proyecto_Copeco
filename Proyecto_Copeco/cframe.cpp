@@ -442,3 +442,19 @@ void cframe::on_CerrarSesion_clicked()
     ui->tabCentral->setTabEnabled(1,false);
 }
 
+
+void cframe::on_CerrarSesion_3_clicked()
+{
+    ui->tabCentral->setTabEnabled(0,true);
+    ui->tabCentral->setCurrentIndex(0);
+    ui->tabCentral->setTabEnabled(1,false);
+}
+
+
+void cframe::on_CerrarSesion_2_clicked()
+{
+    ui->tabCentral->setTabEnabled(0,true);
+    ui->tabCentral->setCurrentIndex(0);
+    ui->tabCentral->setTabEnabled(1,false);
+}
+

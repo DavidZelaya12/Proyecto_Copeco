@@ -43,6 +43,7 @@ public:
     QPushButton *AgregarProducto;
     QLabel *label_2;
     QTableWidget *TableInventario;
+    QPushButton *CerrarSesion;
     QWidget *tab_2;
     QLineEdit *NombreRemitente;
     QLineEdit *ResponsableEntrada;
@@ -69,7 +70,7 @@ public:
     {
         if (cframe->objectName().isEmpty())
             cframe->setObjectName(QString::fromUtf8("cframe"));
-        cframe->resize(1036, 724);
+        cframe->resize(1036, 703);
         centralwidget = new QWidget(cframe);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         tabCentral = new QTabWidget(centralwidget);
@@ -120,11 +121,13 @@ public:
         TabIngresar = new QTabWidget(MenuPrin_Tab);
         TabIngresar->setObjectName(QString::fromUtf8("TabIngresar"));
         TabIngresar->setGeometry(QRect(0, 0, 1011, 631));
+        TabIngresar->setFocusPolicy(Qt::TabFocus);
+        TabIngresar->setLayoutDirection(Qt::LeftToRight);
         tab_4 = new QWidget();
         tab_4->setObjectName(QString::fromUtf8("tab_4"));
         CodigoAgregar = new QLineEdit(tab_4);
         CodigoAgregar->setObjectName(QString::fromUtf8("CodigoAgregar"));
-        CodigoAgregar->setGeometry(QRect(90, 340, 271, 41));
+        CodigoAgregar->setGeometry(QRect(90, 340, 271, 31));
         QPalette palette2;
         palette2.setBrush(QPalette::Active, QPalette::Base, brush);
         palette2.setBrush(QPalette::Inactive, QPalette::Base, brush);
@@ -152,12 +155,17 @@ public:
         TableInventario->setObjectName(QString::fromUtf8("TableInventario"));
         TableInventario->setGeometry(QRect(440, 70, 541, 481));
         TableInventario->setFrameShape(QFrame::NoFrame);
+        CerrarSesion = new QPushButton(tab_4);
+        CerrarSesion->setObjectName(QString::fromUtf8("CerrarSesion"));
+        CerrarSesion->setGeometry(QRect(930, 10, 51, 41));
+        CerrarSesion->setFlat(true);
         TabIngresar->addTab(tab_4, QString());
         label_2->raise();
         CodigoAgregar->raise();
         NombreAgregar->raise();
         AgregarProducto->raise();
         TableInventario->raise();
+        CerrarSesion->raise();
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
         NombreRemitente = new QLineEdit(tab_2);
@@ -289,7 +297,7 @@ public:
         retranslateUi(cframe);
 
         tabCentral->setCurrentIndex(1);
-        TabIngresar->setCurrentIndex(1);
+        TabIngresar->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(cframe);
@@ -303,6 +311,7 @@ public:
         tabCentral->setTabText(tabCentral->indexOf(InicioSesion_Tab), QApplication::translate("cframe", "Inicio Sesion", nullptr));
         AgregarProducto->setText(QString());
         label_2->setText(QString());
+        CerrarSesion->setText(QString());
         TabIngresar->setTabText(TabIngresar->indexOf(tab_4), QApplication::translate("cframe", "Agregar", nullptr));
         label_9->setText(QApplication::translate("cframe", "Codigo", nullptr));
         pushButton->setText(QString());

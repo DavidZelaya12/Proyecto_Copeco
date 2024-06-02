@@ -42,6 +42,10 @@ private slots:
 
     void on_CerrarSesion_clicked();
 
+    void on_CerrarSesion_3_clicked();
+
+    void on_CerrarSesion_2_clicked();
+
 private:
     Ui::cframe *ui;
     void setupDatabase();
