@@ -52,7 +52,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>Imagenes/Untitled design (9).png</pixmap>
+       <pixmap resource="Imagenes.qrc">:/Imagenes/Untitled design (9).png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>false</bool>
@@ -207,7 +207,7 @@
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_4">
        <attribute name="title">
@@ -342,7 +342,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>Imagenes/íewnr9n(1).png</pixmap>
+         <pixmap resource="Imagenes.qrc">:/Imagenes/íewnr9n(1).png</pixmap>
         </property>
        </widget>
        <widget class="QTableWidget" name="TableInventario">
@@ -603,7 +603,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>Imagenes/ierbu (8).png</pixmap>
+         <pixmap resource="Imagenes.qrc">:/Imagenes/ierbu (8).png</pixmap>
         </property>
        </widget>
        <widget class="QPushButton" name="CerrarSesion_2">
@@ -854,7 +854,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap>Imagenes/ierbu (6).png</pixmap>
+         <pixmap resource="Imagenes.qrc">:/Imagenes/ierbu (6).png</pixmap>
         </property>
        </widget>
        <widget class="QTableWidget" name="TablesEntradas_2">
@@ -913,6 +913,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="Imagenes.qrc"/>
+ </resources>
  <connections/>
 </ui>

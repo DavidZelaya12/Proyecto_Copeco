@@ -85,7 +85,7 @@ public:
         imagenfondo = new QLabel(InicioSesion_Tab);
         imagenfondo->setObjectName(QString::fromUtf8("imagenfondo"));
         imagenfondo->setGeometry(QRect(0, 0, 1001, 601));
-        imagenfondo->setPixmap(QPixmap(QString::fromUtf8("../../../../../Untitled design (9).png")));
+        imagenfondo->setPixmap(QPixmap(QString::fromUtf8(":/Imagenes/Untitled design (9).png")));
         imagenfondo->setScaledContents(false);
         txtusuario = new QLineEdit(InicioSesion_Tab);
         txtusuario->setObjectName(QString::fromUtf8("txtusuario"));
@@ -152,7 +152,7 @@ public:
         label_2 = new QLabel(tab_4);
         label_2->setObjectName(QString::fromUtf8("label_2"));
         label_2->setGeometry(QRect(0, 0, 1001, 571));
-        label_2->setPixmap(QPixmap(QString::fromUtf8("../../../../../\303\255ewnr9n.png")));
+        label_2->setPixmap(QPixmap(QString::fromUtf8(":/Imagenes/\303\255ewnr9n(1).png")));
         TableInventario = new QTableWidget(tab_4);
         TableInventario->setObjectName(QString::fromUtf8("TableInventario"));
         TableInventario->setGeometry(QRect(440, 70, 541, 481));
@@ -215,7 +215,7 @@ public:
         label_3 = new QLabel(tab_2);
         label_3->setObjectName(QString::fromUtf8("label_3"));
         label_3->setGeometry(QRect(0, 0, 1001, 581));
-        label_3->setPixmap(QPixmap(QString::fromUtf8("../../../../../ierbu (7).png")));
+        label_3->setPixmap(QPixmap(QString::fromUtf8(":/Imagenes/ierbu (8).png")));
         CerrarSesion_2 = new QPushButton(tab_2);
         CerrarSesion_2->setObjectName(QString::fromUtf8("CerrarSesion_2"));
         CerrarSesion_2->setGeometry(QRect(930, 10, 51, 41));
@@ -276,7 +276,7 @@ public:
         label_4 = new QLabel(tab_3);
         label_4->setObjectName(QString::fromUtf8("label_4"));
         label_4->setGeometry(QRect(0, 0, 1001, 581));
-        label_4->setPixmap(QPixmap(QString::fromUtf8("../../../../../ierbu (6).png")));
+        label_4->setPixmap(QPixmap(QString::fromUtf8(":/Imagenes/ierbu (6).png")));
         TablesEntradas_2 = new QTableWidget(tab_3);
         TablesEntradas_2->setObjectName(QString::fromUtf8("TablesEntradas_2"));
         TablesEntradas_2->setGeometry(QRect(50, 260, 921, 261));
