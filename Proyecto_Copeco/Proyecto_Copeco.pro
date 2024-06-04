@@ -10,13 +10,16 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    cframe.cpp
+    cframe.cpp \
+    token.cpp
 
 HEADERS += \
-    cframe.h
+    cframe.h \
+    token.h
 
 FORMS += \
-    cframe.ui
+    cframe.ui \
+    token.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -12,7 +12,7 @@ cframe::cframe(QWidget *parent)
     ui->setupUi(this);
     //CantInventario = obtenerPrimaryKey();
     setupDatabase();
-    //createTable();
+    createTable();
     //insertValues();
     //queryTable();
     ActualizarTablas();
@@ -59,7 +59,7 @@ void cframe::LogIn(std::string nombre, std::string contra)
     QSqlQuery query;
     if (query.exec("SELECT * FROM personas")) {
         while (query.next()) {
-            if(query.value(2).toString().toStdString()==nombre && query.value(5).toString().toStdString()==contra){
+            if(query.value(1).toString().toStdString()==nombre && query.value(2).toString().toStdString()==contra){
                 ui->tabCentral->setTabEnabled(1,true);
                 ui->tabCentral->setCurrentIndex(1);
                 ui->tabCentral->setTabEnabled(0,false);
@@ -161,6 +161,7 @@ bool cframe::ModificarInsumo(int cantidad)
 
     if(BuscarPorCodigo(CodigoProducto)=="no"){
         QMessageBox::critical(this, "Error", "Codigo inexistente");
+        return false;
     }
 
     QString selectSql = "SELECT Cantidad FROM inventario WHERE Codigo = :CodigoProducto";
@@ -204,14 +205,14 @@ QString cframe::BuscarPorCodigo(QString codigo)
     query.bindValue(":codigo", codigo);
 
     if (!query.exec()) {
-        QMessageBox::critical(nullptr, "Query Error", query.lastError().text());
+       // QMessageBox::critical(nullptr, "Query Error", query.lastError().text());
         return "no funca"; // Retorna una cadena vacía en caso de error
     }
 
     if (query.next()) {
         nombreProducto = query.value(0).toString();
     } else {
-        QMessageBox::information(nullptr, "No Result", "No se encontró un producto con el código especificado.");
+       // QMessageBox::information(nullptr, "No Result", "No se encontró un producto con el código especificado.");
         return "no";
     }
 
@@ -224,9 +225,16 @@ bool cframe::RestarInsumo(int cantidad)
     QString CodigoProducto = ui->CodigoSalida->text();
     QSqlQuery query;
 
+
     QString selectSql = "SELECT Cantidad FROM inventario WHERE Codigo = :CodigoProducto";
     query.prepare(selectSql);
     query.bindValue(":CodigoProducto", CodigoProducto);
+
+    if(BuscarPorCodigo(CodigoProducto)=="no"){
+        QMessageBox::critical(this, "Error", "Codigo inexistente");
+        return false;
+    }
+
 
     if (!query.exec()) {
         QMessageBox::critical(this, "Query Error", query.lastError().text());
@@ -313,10 +321,11 @@ void cframe::createTable()
 {
     QSqlQuery query;
     QString createTableSql = R"(
-        CREATE TABLE inventario(
-            Codigo NVARCHAR(4) PRIMARY KEY,
+        CREATE TABLE personas(
+            ID NVARCHAR(13) PRIMARY KEY,
             nombre NVARCHAR(50),
-            Cantidad int
+            contra NVARCHAR(15),
+            puesto NVARCHAR(15),
         )
     )";
 
@@ -406,13 +415,13 @@ void cframe::on_AgregarProducto_clicked()
     query.bindValue(":CodigoProducto", CodigoProducto);
 
     if (!query.exec()) {
-        QMessageBox::critical(this, "Insert Values Error", query.lastError().text());
-        ui->NombreAgregar->text().clear();
-        ui->CodigoAgregar->text().clear();
+        QMessageBox::critical(this, "Error", "Verifique la informacion de sus campos");
     } else {
-        QMessageBox::information(this, "Insert Values", "Values inserted into 'inventario' table successfully.");
+        QMessageBox::information(this, "Exito", "Insumo agregado exitosamente!.");
         ActualizarTablas();
     }
+    ui->NombreAgregar->text().clear();
+    ui->CodigoAgregar->text().clear();
 }
 
 
@@ -427,6 +436,12 @@ void cframe::on_pushButton_clicked()
     QString recibe = ui->ResponsableEntrada->text();
     auto now = std::chrono::system_clock::now();
     std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+
+    if(BuscarPorCodigo(CodigoProducto)=="no"){
+        QMessageBox::critical(this, "Error", "Codigo inexistente");
+        return ;
+    }
+
 
     // Convertir el tiempo a una estructura tm de manera segura
     std::tm now_tm;
@@ -464,6 +479,51 @@ void cframe::on_pushButton_clicked()
 void cframe::on_Btn_restar_clicked()
 {
     RestarInsumo(ui->CantidadSalida->value());
+    std::cout<<std::endl<<CantInventario<<std::endl;
+    QString CodigoProducto = ui->CodigoSalida->text();
+    QString nombreProducto = BuscarPorCodigo(CodigoProducto);
+    QString cantidad= ui->CantidadSalida->text();
+    QString remitentes = ui->ResponsableSalida->text();
+    QString recibe = ui->RecibioSalida->text();
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+
+    if(BuscarPorCodigo(CodigoProducto)=="no"){
+        QMessageBox::critical(this, "Error", "Codigo inexistente");
+        return ;
+    }
+
+
+    // Convertir el tiempo a una estructura tm de manera segura
+    std::tm now_tm;
+    localtime_r(&now_time, &now_tm);
+
+    // Usar ostringstream para formatear la fecha en dd/MM/yyyy
+    std::ostringstream oss;
+    oss << std::put_time(&now_tm, "%d/%m/%Y");
+    std::string fec = oss.str();
+    QString fecha = QString::fromStdString(fec);
+
+    QSqlQuery query;
+    QString insertValuesSql = "INSERT INTO ES (id, codigo, nombre, cantidad, accion, fecha, remitente, recibe) VALUES(:id, :codigo, :nombreProducto, :cantidad, 'Salida', :fecha, :remitentes, :recibe)";
+    query.prepare(insertValuesSql);
+    query.bindValue(":id", 2);
+    query.bindValue(":codigo", CodigoProducto);
+    query.bindValue(":nombreProducto", nombreProducto);
+    query.bindValue(":cantidad", cantidad.toInt());
+    query.bindValue(":fecha", fecha);
+    query.bindValue(":remitentes", remitentes);
+    query.bindValue(":recibe", recibe);
+
+    if (!query.exec()) {
+        QMessageBox::critical(this, "Insert Values Error", query.lastError().text());
+        ui->NombreAgregar->text().clear();
+        ui->CodigoAgregar->text().clear();
+    } else {
+        QMessageBox::information(this, "Insert Values", "Values inserted into 'inventario' table successfully.");
+        ActualizarTablas();
+    }
+
 }
 
 
@@ -488,5 +548,11 @@ void cframe::on_CerrarSesion_2_clicked()
     ui->tabCentral->setTabEnabled(0,true);
     ui->tabCentral->setCurrentIndex(0);
     ui->tabCentral->setTabEnabled(1,false);
+}
+
+void cframe::on_TokenBtn_clicked()
+{
+    a.SetToken(a.GenerarToken());
+    a.show();
 }
 

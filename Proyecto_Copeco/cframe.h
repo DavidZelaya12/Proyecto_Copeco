@@ -7,6 +7,7 @@
 #include <QtSql/QSqlQuery>
 #include <QMessageBox>
 #include <QDebug>
+#include <token.h>
 
 using std::string;
 
@@ -47,10 +48,13 @@ private slots:
 
     void on_CerrarSesion_2_clicked();
 
+    void on_TokenBtn_clicked();
+
 private:
     Ui::cframe *ui;
     void setupDatabase();
     void createTable();
+    Token a;
     void insertValues();
     void queryTable();
     int CantInventario;
