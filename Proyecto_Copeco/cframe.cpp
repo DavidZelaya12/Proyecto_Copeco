@@ -155,9 +155,13 @@ void cframe::ActualizarTablas()
 
 bool cframe::ModificarInsumo(int cantidad)
 {
-    QString nombreProducto = ui->NombreAgregar->text();
-    QString CodigoProducto = ui->CodigoAgregar->text();
+  //  QString nombreProducto = ui->NombreAgregar->text();
+    QString CodigoProducto = ui->CodigoEntrada->text();
     QSqlQuery query;
+
+    if(BuscarPorCodigo(CodigoProducto)=="no"){
+        QMessageBox::critical(this, "Error", "Codigo inexistente");
+    }
 
     QString selectSql = "SELECT Cantidad FROM inventario WHERE Codigo = :CodigoProducto";
     query.prepare(selectSql);
@@ -177,7 +181,7 @@ bool cframe::ModificarInsumo(int cantidad)
         query.bindValue(":CodigoProducto", CodigoProducto);
 
         if (!query.exec()) {
-            QMessageBox::critical(this, "Update Error", query.lastError().text());
+            QMessageBox::critical(this, "Error no existe", query.lastError().text());
         } else {
             QMessageBox::information(this, "Update Successful", "Cantidad actualizada exitosamente.");
             ActualizarTablas();
@@ -201,13 +205,14 @@ QString cframe::BuscarPorCodigo(QString codigo)
 
     if (!query.exec()) {
         QMessageBox::critical(nullptr, "Query Error", query.lastError().text());
-        return QString(); // Retorna una cadena vacía en caso de error
+        return "no funca"; // Retorna una cadena vacía en caso de error
     }
 
     if (query.next()) {
         nombreProducto = query.value(0).toString();
     } else {
         QMessageBox::information(nullptr, "No Result", "No se encontró un producto con el código especificado.");
+        return "no";
     }
 
     return nombreProducto;
@@ -233,7 +238,7 @@ bool cframe::RestarInsumo(int cantidad)
         int currentCantidad = query.value(0).toInt();
         int nuevaCantidad = currentCantidad - cantidad;
 
-        if (nuevaCantidad < 0) {
+        if (cantidad > currentCantidad) {
             QMessageBox::critical(this, "Update Error", "Cantidad insuficiente en inventario.");
             return false;
         }
@@ -387,6 +392,13 @@ void cframe::on_AgregarProducto_clicked()
     std::cout<<std::endl<<CantInventario<<std::endl;
     QString nombreProducto = ui->NombreAgregar->text();
     QString CodigoProducto = ui->CodigoAgregar->text();
+
+    if(CodigoProducto.length() != 4){
+        QMessageBox::critical(this, "Error", "Codigo invalido");
+        return;
+    }
+
+
     QSqlQuery query;
     QString insertValuesSql = "INSERT INTO inventario (Codigo, nombre, Cantidad) VALUES(:CodigoProducto, :nombreProducto, 0)";
     query.prepare(insertValuesSql);
