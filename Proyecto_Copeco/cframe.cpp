@@ -59,6 +59,8 @@ void cframe::LogIn(std::string nombre, std::string contra)
     QSqlQuery query;
     if (query.exec("SELECT * FROM personas")) {
         while (query.next()) {
+            std::string contraDB = query.value(2).toString().toStdString();
+            contraDB = contraDB.substr(0, contraDB.size()-8);
             if(query.value(1).toString().toStdString()==nombre && query.value(2).toString().toStdString()==contra){
                 ui->tabCentral->setTabEnabled(1,true);
                 ui->tabCentral->setCurrentIndex(1);

@@ -35,6 +35,7 @@ public:
     QLineEdit *txtusuario;
     QLineEdit *txcontrasea;
     QPushButton *botonlogearse;
+    QPushButton *TokenBtn;
     QWidget *MenuPrin_Tab;
     QTabWidget *TabIngresar;
     QWidget *tab_4;
@@ -117,6 +118,9 @@ public:
         botonlogearse->setObjectName(QString::fromUtf8("botonlogearse"));
         botonlogearse->setGeometry(QRect(90, 440, 271, 41));
         botonlogearse->setFlat(true);
+        TokenBtn = new QPushButton(InicioSesion_Tab);
+        TokenBtn->setObjectName(QString::fromUtf8("TokenBtn"));
+        TokenBtn->setGeometry(QRect(410, 450, 171, 31));
         tabCentral->addTab(InicioSesion_Tab, QString());
         MenuPrin_Tab = new QWidget();
         MenuPrin_Tab->setObjectName(QString::fromUtf8("MenuPrin_Tab"));
@@ -309,7 +313,7 @@ public:
         retranslateUi(cframe);
 
         tabCentral->setCurrentIndex(0);
-        TabIngresar->setCurrentIndex(1);
+        TabIngresar->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(cframe);
@@ -320,6 +324,7 @@ public:
         cframe->setWindowTitle(QApplication::translate("cframe", "cframe", nullptr));
         imagenfondo->setText(QString());
         botonlogearse->setText(QString());
+        TokenBtn->setText(QApplication::translate("cframe", "Token", nullptr));
         tabCentral->setTabText(tabCentral->indexOf(InicioSesion_Tab), QApplication::translate("cframe", "Inicio Sesion", nullptr));
         AgregarProducto->setText(QString());
         label_2->setText(QString());

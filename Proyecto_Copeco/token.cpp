@@ -7,8 +7,10 @@ Token::Token(QWidget *parent) :
     ui(new Ui::Token)
 {
     ui->setupUi(this);
+    this->setFixedSize(400, 400);
     timer = new QTimer(this);
     QObject::connect(timer, &QTimer::timeout, this, &Token::UpdateClock);
+    connect(timer, &QTimer::timeout, this, &Token::update);
     timer->start(1000);
 }
 
@@ -78,5 +80,7 @@ void Token::UpdateClock()
     ui->lbl_tiempo->setText(QString::number(secondsLeft) + " segundos restantes");
 }
 
-
-
+void Token::Update()
+{
+    ui->lbl_Token->setText(QString::number(GenerarToken()));
+}
