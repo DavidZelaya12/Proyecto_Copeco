@@ -308,8 +308,8 @@ public:
 
         retranslateUi(cframe);
 
-        tabCentral->setCurrentIndex(1);
-        TabIngresar->setCurrentIndex(2);
+        tabCentral->setCurrentIndex(0);
+        TabIngresar->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(cframe);

@@ -33,7 +33,7 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="InicioSesion_Tab">
      <attribute name="title">
@@ -207,7 +207,7 @@
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_4">
        <attribute name="title">
@@ -603,7 +603,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="Imagenes.qrc">:/Imagenes/ierbu (8).png</pixmap>
+         <pixmap resource="Imagenes.qrc">:/Imagenes/entradas.png</pixmap>
         </property>
        </widget>
        <widget class="QPushButton" name="CerrarSesion_2">
@@ -854,7 +854,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="Imagenes.qrc">:/Imagenes/ierbu (6).png</pixmap>
+         <pixmap resource="Imagenes.qrc">:/Imagenes/salidas.png</pixmap>
         </property>
        </widget>
        <widget class="QTableWidget" name="TablesEntradas_2">
