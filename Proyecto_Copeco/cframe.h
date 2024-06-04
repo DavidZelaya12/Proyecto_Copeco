@@ -56,8 +56,4 @@ private:
     int CantInventario;
 };
 
-struct User{
-
-};
-
 #endif // CFRAME_H

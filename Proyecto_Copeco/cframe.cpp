@@ -56,7 +56,18 @@ void cframe::MostrarInventario()
 
 void cframe::LogIn(std::string nombre, std::string contra)
 {
-
+    QSqlQuery query;
+    if (query.exec("SELECT * FROM personas")) {
+        while (query.next()) {
+            if(query.value(2).toString().toStdString()==nombre && query.value(5).toString().toStdString()==contra){
+                ui->tabCentral->setTabEnabled(1,true);
+                ui->tabCentral->setCurrentIndex(1);
+                ui->tabCentral->setTabEnabled(0,false);
+                return;
+            }
+        }
+        QMessageBox::critical(this, "Error", "Las credenciales no concuerdan");
+    }
 }
 
 void cframe::MostrarSalidas()
@@ -360,10 +371,14 @@ void cframe::queryTable()
 
 void cframe::on_botonlogearse_clicked()
 {
+    /*
+    string nombre=ui->txtusuario->text().toStdString();
+    string contra=ui->txcontrasea->text().toStdString();
+    LogIn(nombre, contra);
+    */
     ui->tabCentral->setTabEnabled(1,true);
     ui->tabCentral->setCurrentIndex(1);
     ui->tabCentral->setTabEnabled(0,false);
-
 }
 
 
