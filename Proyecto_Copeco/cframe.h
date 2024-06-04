@@ -22,6 +22,7 @@ class cframe : public QMainWindow
 public:
     cframe(QWidget *parent = nullptr);
     void MostrarInventario();
+    void LogIn(string nombre, string contra);
     void MostrarSalidas();
     void MostrarEntradas();
     void ActualizarTablas();
@@ -54,4 +55,9 @@ private:
     void queryTable();
     int CantInventario;
 };
+
+struct User{
+
+};
+
 #endif // CFRAME_H

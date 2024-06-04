@@ -54,6 +54,11 @@ void cframe::MostrarInventario()
 
 }
 
+void cframe::LogIn(std::string nombre, std::string contra)
+{
+
+}
+
 void cframe::MostrarSalidas()
 {
     QSqlQuery query;
