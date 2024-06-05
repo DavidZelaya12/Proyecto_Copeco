@@ -52,18 +52,18 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="Imagenes.qrc">:/Imagenes/Untitled design (9).png</pixmap>
+       <pixmap resource="Imagenes.qrc">:/Imagenes/Black and Red Minimalist Modern Registration Gym Website Prototype (1).png</pixmap>
       </property>
       <property name="scaledContents">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QLineEdit" name="txtusuario">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>270</y>
-        <width>261</width>
+        <x>120</x>
+        <y>280</y>
+        <width>251</width>
         <height>31</height>
        </rect>
       </property>
@@ -117,10 +117,10 @@
      <widget class="QLineEdit" name="txcontrasea">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>350</y>
-        <width>261</width>
-        <height>41</height>
+        <x>120</x>
+        <y>360</y>
+        <width>251</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="palette">
@@ -173,9 +173,9 @@
      <widget class="QPushButton" name="botonlogearse">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>440</y>
-        <width>271</width>
+        <x>110</x>
+        <y>460</y>
+        <width>211</width>
         <height>41</height>
        </rect>
       </property>
@@ -189,14 +189,17 @@
      <widget class="QPushButton" name="TokenBtn">
       <property name="geometry">
        <rect>
-        <x>410</x>
-        <y>450</y>
-        <width>171</width>
-        <height>31</height>
+        <x>340</x>
+        <y>460</y>
+        <width>41</width>
+        <height>41</height>
        </rect>
       </property>
       <property name="text">
-       <string>Token</string>
+       <string/>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
       </property>
      </widget>
     </widget>

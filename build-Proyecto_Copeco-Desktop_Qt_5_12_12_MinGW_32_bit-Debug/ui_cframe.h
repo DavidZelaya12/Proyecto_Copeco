@@ -86,11 +86,11 @@ public:
         imagenfondo = new QLabel(InicioSesion_Tab);
         imagenfondo->setObjectName(QString::fromUtf8("imagenfondo"));
         imagenfondo->setGeometry(QRect(0, 0, 1001, 601));
-        imagenfondo->setPixmap(QPixmap(QString::fromUtf8(":/Imagenes/Untitled design (9).png")));
-        imagenfondo->setScaledContents(false);
+        imagenfondo->setPixmap(QPixmap(QString::fromUtf8(":/Imagenes/Black and Red Minimalist Modern Registration Gym Website Prototype (1).png")));
+        imagenfondo->setScaledContents(true);
         txtusuario = new QLineEdit(InicioSesion_Tab);
         txtusuario->setObjectName(QString::fromUtf8("txtusuario"));
-        txtusuario->setGeometry(QRect(90, 270, 261, 31));
+        txtusuario->setGeometry(QRect(120, 280, 251, 31));
         QPalette palette;
         QBrush brush(QColor(239, 239, 239, 255));
         brush.setStyle(Qt::SolidPattern);
@@ -105,7 +105,7 @@ public:
         txtusuario->setClearButtonEnabled(false);
         txcontrasea = new QLineEdit(InicioSesion_Tab);
         txcontrasea->setObjectName(QString::fromUtf8("txcontrasea"));
-        txcontrasea->setGeometry(QRect(90, 350, 261, 41));
+        txcontrasea->setGeometry(QRect(120, 360, 251, 31));
         QPalette palette1;
         palette1.setBrush(QPalette::Active, QPalette::Base, brush);
         palette1.setBrush(QPalette::Inactive, QPalette::Base, brush);
@@ -116,11 +116,12 @@ public:
         txcontrasea->setClearButtonEnabled(false);
         botonlogearse = new QPushButton(InicioSesion_Tab);
         botonlogearse->setObjectName(QString::fromUtf8("botonlogearse"));
-        botonlogearse->setGeometry(QRect(90, 440, 271, 41));
+        botonlogearse->setGeometry(QRect(110, 460, 211, 41));
         botonlogearse->setFlat(true);
         TokenBtn = new QPushButton(InicioSesion_Tab);
         TokenBtn->setObjectName(QString::fromUtf8("TokenBtn"));
-        TokenBtn->setGeometry(QRect(410, 450, 171, 31));
+        TokenBtn->setGeometry(QRect(340, 460, 41, 41));
+        TokenBtn->setFlat(true);
         tabCentral->addTab(InicioSesion_Tab, QString());
         MenuPrin_Tab = new QWidget();
         MenuPrin_Tab->setObjectName(QString::fromUtf8("MenuPrin_Tab"));
@@ -324,7 +325,7 @@ public:
         cframe->setWindowTitle(QApplication::translate("cframe", "cframe", nullptr));
         imagenfondo->setText(QString());
         botonlogearse->setText(QString());
-        TokenBtn->setText(QApplication::translate("cframe", "Token", nullptr));
+        TokenBtn->setText(QString());
         tabCentral->setTabText(tabCentral->indexOf(InicioSesion_Tab), QApplication::translate("cframe", "Inicio Sesion", nullptr));
         AgregarProducto->setText(QString());
         label_2->setText(QString());
