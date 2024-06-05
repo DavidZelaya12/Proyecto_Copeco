@@ -7,7 +7,7 @@ Token::Token(QWidget *parent) :
     ui(new Ui::Token)
 {
     ui->setupUi(this);
-    this->setFixedSize(400, 400);
+    this->setFixedSize(400, 275);
     timer = new QTimer(this);
     QObject::connect(timer, &QTimer::timeout, this, &Token::UpdateClock);
     connect(timer, &QTimer::timeout, this, &Token::update);
@@ -71,6 +71,8 @@ long Token::GenerarToken()
     long long timestamp = QDateTime::currentSecsSinceEpoch();
     timestamp=(timestamp/60);
     long Token = ((timestamp*SeedKey)/(timestamp%10))%1000000;
+    if(Token<100000 || Token>999999)
+        Token = GenerarToken();
     return Token;
 }
 
@@ -80,7 +82,9 @@ void Token::UpdateClock()
     ui->lbl_tiempo->setText(QString::number(secondsLeft) + " segundos restantes");
 }
 
-void Token::Update()
+void Token::update()
 {
-    ui->lbl_Token->setText(QString::number(GenerarToken()));
+    int token = GenerarToken();
+    ui->lbl_Token->setText(QString::number(token));
+    SetToken(token);
 }

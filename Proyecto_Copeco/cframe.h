@@ -23,8 +23,9 @@ class cframe : public QMainWindow
 public:
     cframe(QWidget *parent = nullptr);
     void MostrarInventario();
-    void LogIn(string nombre, string contra);
+    void LogIn();
     void MostrarSalidas();
+    std::string LeerToken();
     void MostrarEntradas();
     void ActualizarTablas();
     bool ModificarInsumo(int cantidad);

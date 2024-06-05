@@ -12,7 +12,7 @@ cframe::cframe(QWidget *parent)
     ui->setupUi(this);
     //CantInventario = obtenerPrimaryKey();
     setupDatabase();
-    createTable();
+    //createTable();
     //insertValues();
     //queryTable();
     ActualizarTablas();
@@ -54,22 +54,32 @@ void cframe::MostrarInventario()
 
 }
 
-void cframe::LogIn(std::string nombre, std::string contra)
+void cframe::LogIn()
 {
     QSqlQuery query;
     if (query.exec("SELECT * FROM personas")) {
         while (query.next()) {
-            std::string contraDB = query.value(2).toString().toStdString();
-            contraDB = contraDB.substr(0, contraDB.size()-8);
-            if(query.value(1).toString().toStdString()==nombre && query.value(2).toString().toStdString()==contra){
-                ui->tabCentral->setTabEnabled(1,true);
-                ui->tabCentral->setCurrentIndex(1);
-                ui->tabCentral->setTabEnabled(0,false);
-                return;
+            std::string contraDB, contraLog, tokencrip, contraingresada, nombre, nombreDB;
+            QString tokenS;
+            contraingresada = ui->txcontrasea->text().toStdString();
+            contraDB = query.value(2).toString().toStdString();
+            if(contraingresada.size()>7){
+                nombre=ui->txtusuario->text().toStdString();
+                nombreDB = query.value(1).toString().toStdString();
+                contraLog = contraingresada.substr(0, contraingresada.size()-6);
+                tokenS = QString::fromStdString(contraingresada.substr(contraingresada.size()-6, contraingresada.size()));
+                tokencrip= a.EncriptarToken(tokenS.toLong());
+                QMessageBox::critical(this, "Error", QString::fromStdString(contraDB+" "+contraLog+" "+tokenS.toStdString()+" "+tokencrip+" "+LeerToken()+" "+nombre+" "+nombreDB));
+                if(contraDB==contraLog && tokencrip==LeerToken() && nombre==nombreDB){
+                    ui->tabCentral->setTabEnabled(1,true);
+                    ui->tabCentral->setCurrentIndex(1);
+                    ui->tabCentral->setTabEnabled(0,false);
+                    return;
+                }
             }
         }
-        QMessageBox::critical(this, "Error", "Las credenciales no concuerdan");
     }
+    QMessageBox::critical(this, "Error", "Verifque sus credenciales de inicio de sesion");
 }
 
 void cframe::MostrarSalidas()
@@ -318,7 +328,7 @@ void cframe::setupDatabase()
         QMessageBox::information(this, "Database Connection", "Successfully connected to the database!");
     }
 }
-
+/*
 void cframe::createTable()
 {
     QSqlQuery query;
@@ -337,13 +347,13 @@ void cframe::createTable()
         QMessageBox::information(this, "Table Creation", "Table 'personas' created successfully.");
     }
 }
-
+*/
 void cframe::insertValues()
 {
     QSqlQuery query;
     QString insertValuesSql = R"(
-        INSERT INTO personas (id, dni, nombre, puesto) VALUES
-        (2, '0501199067890', 'Virgilio', 'Bodeguero')
+        INSERT INTO personas (id, nombre, contra, puesto) VALUES
+        ('0501199067890', 'Virgilio Fuentes', 'virgigod', 'Bodeguero')
     )";
 
     if (!query.exec(insertValuesSql)) {
@@ -387,14 +397,10 @@ void cframe::queryTable()
 
 void cframe::on_botonlogearse_clicked()
 {
-    /*
-    string nombre=ui->txtusuario->text().toStdString();
-    string contra=ui->txcontrasea->text().toStdString();
-    LogIn(nombre, contra);
-    */
-    ui->tabCentral->setTabEnabled(1,true);
-    ui->tabCentral->setCurrentIndex(1);
-    ui->tabCentral->setTabEnabled(0,false);
+    if(ui->txcontrasea->text()!="" && ui->txtusuario->text()!="")
+        LogIn();
+    else
+        QMessageBox::critical(this, "Error", "Rellene todos los espacios");
 }
 
 
@@ -556,5 +562,22 @@ void cframe::on_TokenBtn_clicked()
 {
     a.SetToken(a.GenerarToken());
     a.show();
+}
+
+std::string cframe::LeerToken()
+{
+    std::ifstream Archivo("token_cifrado.txt");
+    if (Archivo.is_open())
+    {
+        std::string token;
+        std::getline(Archivo, token);
+        Archivo.close();
+        return token;
+    }
+    else
+    {
+        QMessageBox::critical(this, "Error", "No se pudo abrir el archivo token_cifrado.txt");
+        return NULL;
+    }
 }
 

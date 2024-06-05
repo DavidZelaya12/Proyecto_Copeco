@@ -27,7 +27,7 @@ public:
     void UpdateClock();
 private slots:
 
-    void Update();
+    void update();
 
 private:
     Ui::Token *ui;
