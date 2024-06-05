@@ -71,8 +71,6 @@ long Token::GenerarToken()
     long long timestamp = QDateTime::currentSecsSinceEpoch();
     timestamp=(timestamp/60);
     long Token = ((timestamp*SeedKey)/(timestamp%10))%1000000;
-    if(Token<100000 || Token>999999)
-        Token = GenerarToken();
     return Token;
 }
 

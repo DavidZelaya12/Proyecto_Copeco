@@ -69,7 +69,7 @@ void cframe::LogIn()
                 contraLog = contraingresada.substr(0, contraingresada.size()-6);
                 tokenS = QString::fromStdString(contraingresada.substr(contraingresada.size()-6, contraingresada.size()));
                 tokencrip= a.EncriptarToken(tokenS.toLong());
-                QMessageBox::critical(this, "Error", QString::fromStdString(contraDB+" "+contraLog+" "+tokenS.toStdString()+" "+tokencrip+" "+LeerToken()+" "+nombre+" "+nombreDB));
+                //QMessageBox::critical(this, "Error", QString::fromStdString(contraDB+" "+contraLog+" "+tokenS.toStdString()+" "+tokencrip+" "+LeerToken()+" "+nombre+" "+nombreDB));
                 if(contraDB==contraLog && tokencrip==LeerToken() && nombre==nombreDB){
                     ui->tabCentral->setTabEnabled(1,true);
                     ui->tabCentral->setCurrentIndex(1);
