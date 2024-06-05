@@ -85,7 +85,7 @@ void cframe::LogIn()
 void cframe::MostrarSalidas()
 {
     QSqlQuery query;
-    if (query.exec("SELECT * FROM ES")) {
+    if (query.exec("SELECT * FROM ES ORDER BY fecha")) {
         ui->TablesEntradas_2->setRowCount(0);
         ui->TablesEntradas_2->setColumnCount(8);
         QStringList headers = {"ID", "Codigo", "Nombre", "Cantidad", "Accion", "Fecha", "Remitente", "Receptor"};
@@ -123,7 +123,7 @@ void cframe::MostrarSalidas()
 void cframe::MostrarEntradas()
 {
     QSqlQuery query;
-    if (query.exec("SELECT * FROM ES")) {
+    if (query.exec("SELECT * FROM ES ORDER BY fecha")) {
         ui->TablesEntradas->setRowCount(0);
         ui->TablesEntradas->setColumnCount(8);
         QStringList headers = {"ID", "Codigo", "Nombre", "Cantidad", "Accion", "Fecha", "Remitente", "Receptor"};
