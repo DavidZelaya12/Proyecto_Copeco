@@ -450,7 +450,6 @@ void cframe::on_pushButton_clicked()
         return ;
     }
 
-
     // Convertir el tiempo a una estructura tm de manera segura
     std::tm now_tm;
     localtime_r(&now_time, &now_tm);
@@ -462,9 +461,8 @@ void cframe::on_pushButton_clicked()
     QString fecha = QString::fromStdString(fec);
 
     QSqlQuery query;
-    QString insertValuesSql = "INSERT INTO ES (id, codigo, nombre, cantidad, accion, fecha, remitente, recibe) VALUES(:id, :codigo, :nombreProducto, :cantidad, 'Entrada', :fecha, :remitentes, :recibe)";
+    QString insertValuesSql = "INSERT INTO ES (codigo, nombre, cantidad, accion, fecha, remitente, recibe) VALUES(:codigo, :nombreProducto, :cantidad, 'Entrada', :fecha, :remitentes, :recibe)";
     query.prepare(insertValuesSql);
-    query.bindValue(":id", 2);
     query.bindValue(":codigo", CodigoProducto);
     query.bindValue(":nombreProducto", nombreProducto);
     query.bindValue(":cantidad", cantidad.toInt());
@@ -480,8 +478,8 @@ void cframe::on_pushButton_clicked()
         QMessageBox::information(this, "Insert Values", "Values inserted into 'inventario' table successfully.");
         ActualizarTablas();
     }
-
 }
+
 
 
 void cframe::on_Btn_restar_clicked()
@@ -501,7 +499,6 @@ void cframe::on_Btn_restar_clicked()
         return ;
     }
 
-
     // Convertir el tiempo a una estructura tm de manera segura
     std::tm now_tm;
     localtime_r(&now_time, &now_tm);
@@ -513,9 +510,8 @@ void cframe::on_Btn_restar_clicked()
     QString fecha = QString::fromStdString(fec);
 
     QSqlQuery query;
-    QString insertValuesSql = "INSERT INTO ES (id, codigo, nombre, cantidad, accion, fecha, remitente, recibe) VALUES(:id, :codigo, :nombreProducto, :cantidad, 'Salida', :fecha, :remitentes, :recibe)";
+    QString insertValuesSql = "INSERT INTO ES (codigo, nombre, cantidad, accion, fecha, remitente, recibe) VALUES(:codigo, :nombreProducto, :cantidad, 'Salida', :fecha, :remitentes, :recibe)";
     query.prepare(insertValuesSql);
-    query.bindValue(":id", 2);
     query.bindValue(":codigo", CodigoProducto);
     query.bindValue(":nombreProducto", nombreProducto);
     query.bindValue(":cantidad", cantidad.toInt());
@@ -531,8 +527,8 @@ void cframe::on_Btn_restar_clicked()
         QMessageBox::information(this, "Insert Values", "Values inserted into 'inventario' table successfully.");
         ActualizarTablas();
     }
-
 }
+
 
 
 void cframe::on_CerrarSesion_clicked()
