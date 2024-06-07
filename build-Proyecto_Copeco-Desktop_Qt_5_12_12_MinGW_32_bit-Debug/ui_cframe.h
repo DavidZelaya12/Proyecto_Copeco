@@ -113,6 +113,7 @@ public:
         txcontrasea->setPalette(palette1);
         txcontrasea->setAutoFillBackground(false);
         txcontrasea->setFrame(false);
+        txcontrasea->setEchoMode(QLineEdit::Password);
         txcontrasea->setClearButtonEnabled(false);
         botonlogearse = new QPushButton(InicioSesion_Tab);
         botonlogearse->setObjectName(QString::fromUtf8("botonlogearse"));

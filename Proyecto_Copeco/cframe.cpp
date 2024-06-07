@@ -17,6 +17,7 @@ cframe::cframe(QWidget *parent)
     //queryTable();
     ActualizarTablas();
     ui->tabCentral->setTabEnabled(1, false);
+    std::cout<<"hola";
 }
 
 void cframe::MostrarInventario()
