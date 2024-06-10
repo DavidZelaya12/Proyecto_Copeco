@@ -163,7 +163,6 @@ void cframe::MostrarEntradas()
 
 void cframe::ActualizarTablas()
 {
-    //LimpiarEspacios();
     MostrarInventario();
     MostrarSalidas();
     MostrarEntradas();
@@ -481,6 +480,7 @@ void cframe::on_pushButton_clicked()
     } else {
         QMessageBox::information(this, "Insert Values", "Values inserted into 'inventario' table successfully.");
         ActualizarTablas();
+        LimpiarEspacios();
     }
 }
 
@@ -530,6 +530,7 @@ void cframe::on_Btn_restar_clicked()
     } else {
         QMessageBox::information(this, "Insert Values", "Values inserted into 'inventario' table successfully.");
         ActualizarTablas();
+        LimpiarEspacios();
     }
 }
 
