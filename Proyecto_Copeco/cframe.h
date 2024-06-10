@@ -52,6 +52,7 @@ private slots:
     void on_TokenBtn_clicked();
 
 private:
+    void LimpiarEspacios();
     Ui::cframe *ui;
     void setupDatabase();
     void createTable();

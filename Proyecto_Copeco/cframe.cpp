@@ -71,7 +71,9 @@ void cframe::LogIn()
                 tokenS = QString::fromStdString(contraingresada.substr(contraingresada.size()-6, contraingresada.size()));
                 tokencrip= a.EncriptarToken(tokenS.toLong());
                 //QMessageBox::critical(this, "Error", QString::fromStdString(contraDB+" "+contraLog+" "+tokenS.toStdString()+" "+tokencrip+" "+LeerToken()+" "+nombre+" "+nombreDB));
-                if(contraDB==contraLog && tokencrip==LeerToken() && nombre==nombreDB){
+                if(contraDB==contraLog && tokencrip==LeerToken() && nombre==nombreDB){\
+                    a.close();
+                    LimpiarEspacios();
                     ui->tabCentral->setTabEnabled(1,true);
                     ui->tabCentral->setCurrentIndex(1);
                     ui->tabCentral->setTabEnabled(0,false);
@@ -161,6 +163,7 @@ void cframe::MostrarEntradas()
 
 void cframe::ActualizarTablas()
 {
+    LimpiarEspacios();
     MostrarInventario();
     MostrarSalidas();
     MostrarEntradas();
@@ -537,6 +540,7 @@ void cframe::on_CerrarSesion_clicked()
     ui->tabCentral->setTabEnabled(0,true);
     ui->tabCentral->setCurrentIndex(0);
     ui->tabCentral->setTabEnabled(1,false);
+    LimpiarEspacios();
 }
 
 
@@ -545,6 +549,7 @@ void cframe::on_CerrarSesion_3_clicked()
     ui->tabCentral->setTabEnabled(0,true);
     ui->tabCentral->setCurrentIndex(0);
     ui->tabCentral->setTabEnabled(1,false);
+    LimpiarEspacios();
 }
 
 
@@ -553,12 +558,29 @@ void cframe::on_CerrarSesion_2_clicked()
     ui->tabCentral->setTabEnabled(0,true);
     ui->tabCentral->setCurrentIndex(0);
     ui->tabCentral->setTabEnabled(1,false);
+    LimpiarEspacios();
 }
 
 void cframe::on_TokenBtn_clicked()
 {
     a.SetToken(a.GenerarToken());
     a.show();
+}
+
+void cframe::LimpiarEspacios()
+{
+    ui->txcontrasea->clear();
+    ui->txtusuario->clear();
+    ui->NombreAgregar->clear();
+    ui->CodigoAgregar->clear();
+    ui->ResponsableSalida->clear();
+    ui->RecibioSalida->clear();
+    ui->CodigoSalida->clear();
+    ui->CantidadSalida->setValue(1);
+    ui->NombreRemitente->clear();
+    ui->ResponsableEntrada->clear();
+    ui->CodigoEntrada->clear();
+    ui->cantidadentrada->setValue(1);
 }
 
 std::string cframe::LeerToken()
