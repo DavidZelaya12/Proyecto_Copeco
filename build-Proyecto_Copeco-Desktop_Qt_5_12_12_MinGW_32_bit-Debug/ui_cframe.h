@@ -309,13 +309,13 @@ public:
         cframe->setStatusBar(statusbar);
         menubar = new QMenuBar(cframe);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1036, 25));
+        menubar->setGeometry(QRect(0, 0, 1036, 21));
         cframe->setMenuBar(menubar);
 
         retranslateUi(cframe);
 
-        tabCentral->setCurrentIndex(0);
-        TabIngresar->setCurrentIndex(0);
+        tabCentral->setCurrentIndex(1);
+        TabIngresar->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(cframe);

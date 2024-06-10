@@ -163,7 +163,7 @@ void cframe::MostrarEntradas()
 
 void cframe::ActualizarTablas()
 {
-    LimpiarEspacios();
+    //LimpiarEspacios();
     MostrarInventario();
     MostrarSalidas();
     MostrarEntradas();
@@ -171,7 +171,7 @@ void cframe::ActualizarTablas()
 
 bool cframe::ModificarInsumo(int cantidad)
 {
-  //  QString nombreProducto = ui->NombreAgregar->text();
+    //  QString nombreProducto = ui->NombreAgregar->text();
     QString CodigoProducto = ui->CodigoEntrada->text();
     QSqlQuery query;
 
@@ -221,14 +221,14 @@ QString cframe::BuscarPorCodigo(QString codigo)
     query.bindValue(":codigo", codigo);
 
     if (!query.exec()) {
-       // QMessageBox::critical(nullptr, "Query Error", query.lastError().text());
+        // QMessageBox::critical(nullptr, "Query Error", query.lastError().text());
         return "no funca"; // Retorna una cadena vacía en caso de error
     }
 
     if (query.next()) {
         nombreProducto = query.value(0).toString();
     } else {
-       // QMessageBox::information(nullptr, "No Result", "No se encontró un producto con el código especificado.");
+        // QMessageBox::information(nullptr, "No Result", "No se encontró un producto con el código especificado.");
         return "no";
     }
 
@@ -537,28 +537,63 @@ void cframe::on_Btn_restar_clicked()
 
 void cframe::on_CerrarSesion_clicked()
 {
-    ui->tabCentral->setTabEnabled(0,true);
-    ui->tabCentral->setCurrentIndex(0);
-    ui->tabCentral->setTabEnabled(1,false);
-    LimpiarEspacios();
+    QMessageBox messageBox;
+    messageBox.setWindowTitle("Confirmar Cierre de Sesión");
+    messageBox.setText("¿Estás seguro de que quieres cerrar sesión?");
+    QPushButton *yesButton = messageBox.addButton(tr("Sí"), QMessageBox::YesRole);
+    QPushButton *noButton = messageBox.addButton(tr("No"), QMessageBox::NoRole);
+    messageBox.setIcon(QMessageBox::Question);
+
+    messageBox.exec();
+
+    if (messageBox.clickedButton() == yesButton) {
+        ui->tabCentral->setTabEnabled(0,true);
+        ui->tabCentral->setCurrentIndex(0);
+        ui->tabCentral->setTabEnabled(1,false);
+        LimpiarEspacios();
+    }
+
+
 }
 
 
 void cframe::on_CerrarSesion_3_clicked()
 {
-    ui->tabCentral->setTabEnabled(0,true);
-    ui->tabCentral->setCurrentIndex(0);
-    ui->tabCentral->setTabEnabled(1,false);
-    LimpiarEspacios();
+    QMessageBox messageBox;
+    messageBox.setWindowTitle("Confirmar Cierre de Sesión");
+    messageBox.setText("¿Estás seguro de que quieres cerrar sesión?");
+    QPushButton *yesButton = messageBox.addButton(tr("Sí"), QMessageBox::YesRole);
+    QPushButton *noButton = messageBox.addButton(tr("No"), QMessageBox::NoRole);
+    messageBox.setIcon(QMessageBox::Question);
+
+    messageBox.exec();
+
+    if (messageBox.clickedButton() == yesButton) {
+        ui->tabCentral->setTabEnabled(0,true);
+        ui->tabCentral->setCurrentIndex(0);
+        ui->tabCentral->setTabEnabled(1,false);
+        LimpiarEspacios();
+    }
 }
 
 
 void cframe::on_CerrarSesion_2_clicked()
 {
-    ui->tabCentral->setTabEnabled(0,true);
-    ui->tabCentral->setCurrentIndex(0);
-    ui->tabCentral->setTabEnabled(1,false);
-    LimpiarEspacios();
+    QMessageBox messageBox;
+    messageBox.setWindowTitle("Confirmar Cierre de Sesión");
+    messageBox.setText("¿Estás seguro de que quieres cerrar sesión?");
+    QPushButton *yesButton = messageBox.addButton(tr("Sí"), QMessageBox::YesRole);
+    QPushButton *noButton = messageBox.addButton(tr("No"), QMessageBox::NoRole);
+    messageBox.setIcon(QMessageBox::Question);
+
+    messageBox.exec();
+
+    if (messageBox.clickedButton() == yesButton) {
+        ui->tabCentral->setTabEnabled(0,true);
+        ui->tabCentral->setCurrentIndex(0);
+        ui->tabCentral->setTabEnabled(1,false);
+        LimpiarEspacios();
+    }
 }
 
 void cframe::on_TokenBtn_clicked()
