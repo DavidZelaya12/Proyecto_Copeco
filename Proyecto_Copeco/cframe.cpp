@@ -58,21 +58,24 @@ void cframe::MostrarInventario()
 void cframe::LogIn()
 {
     QSqlQuery query;
-    if (query.exec("SELECT * FROM personas")) {
-        while (query.next()) {
-            int tokensize=LeerToken().size();
-            std::string contraDB, contraLog, tokencrip, contraingresada, nombre, nombreDB;
-            QString tokenS;
-            contraingresada = ui->txcontrasea->text().toStdString();
-            contraDB = query.value(2).toString().toStdString();
-            if(contraingresada.size()>(tokensize+1)){
-                nombre=ui->txtusuario->text().toStdString();
-                nombreDB = query.value(1).toString().toStdString();
-                contraLog = contraingresada.substr(0, contraingresada.size()-tokensize);
-                tokenS = QString::fromStdString(contraingresada.substr(contraingresada.size()-tokensize, contraingresada.size()));
-                tokencrip= a.EncriptarToken(tokenS.toLong());
-                //QMessageBox::critical(this, "Error", QString::fromStdString(contraDB+" "+contraLog+" "+tokenS.toStdString()+" "+tokencrip+" "+LeerToken()+" "+nombre+" "+nombreDB));
-                if(contraDB==contraLog && tokencrip==LeerToken() && nombre==nombreDB){\
+       if (query.exec("SELECT * FROM personas")) {
+           while (query.next()) {
+               int tokensize=LeerToken().size();
+               std::string contraDB, contraLog, tokencrip, contraingresada, nombre, nombreDB;
+               QString tokenS;
+               contraingresada = ui->txcontrasea->text().toStdString();
+               contraDB = query.value(2).toString().toStdString();
+               if(contraingresada.size()>7){
+               if(contraingresada.size()>(tokensize+1)){
+                   nombre=ui->txtusuario->text().toStdString();
+                   nombreDB = query.value(1).toString().toStdString();
+                   contraLog = contraingresada.substr(0, contraingresada.size()-6);
+                   tokenS = QString::fromStdString(contraingresada.substr(contraingresada.size()-6, contraingresada.size()));
+                   contraLog = contraingresada.substr(0, contraingresada.size()-tokensize);
+                   tokenS = QString::fromStdString(contraingresada.substr(contraingresada.size()-tokensize, contraingresada.size()));
+                   tokencrip= a.EncriptarToken(tokenS.toLong());
+                   //QMessageBox::critical(this, "Error", QString::fromStdString(contraDB+" "+contraLog+" "+tokenS.toStdString()+" "+tokencrip+" "+LeerToken()+" "+nombre+" "+nombreDB));
+                   if(contraDB==contraLog && tokencrip==LeerToken() && nombre==nombreDB){
                     a.close();
                     LimpiarEspacios();
                     ui->tabCentral->setTabEnabled(1,true);
@@ -84,6 +87,7 @@ void cframe::LogIn()
         }
     }
     QMessageBox::critical(this, "Error", "Verifque sus credenciales de inicio de sesion");
+}
 }
 
 void cframe::MostrarSalidas()
