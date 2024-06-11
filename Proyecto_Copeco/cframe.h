@@ -25,6 +25,7 @@ public:
     void MostrarInventario();
     void LogIn();
     void MostrarSalidas();
+    void RegistrarEmpleado(QString id, QString nombre, QString contra, QString puesto);
     std::string LeerToken();
     void MostrarEntradas();
     void ActualizarTablas();

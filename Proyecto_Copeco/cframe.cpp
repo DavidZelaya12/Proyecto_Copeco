@@ -4,6 +4,7 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include <QSqlError>
 
 cframe::cframe(QWidget *parent)
     : QMainWindow(parent)
@@ -58,20 +59,20 @@ void cframe::MostrarInventario()
 void cframe::LogIn()
 {
     QSqlQuery query;
-       if (query.exec("SELECT * FROM personas")) {
-           while (query.next()) {
-               std::string contraDB, contraLog, tokencrip, contraingresada, nombre, nombreDB;
-               QString tokenS;
-               contraingresada = ui->txcontrasea->text().toStdString();
-               contraDB = query.value(2).toString().toStdString();
-               if(contraingresada.size()>7){
-                   nombre=ui->txtusuario->text().toStdString();
-                   nombreDB = query.value(1).toString().toStdString();
-                   contraLog = contraingresada.substr(0, contraingresada.size()-6);
-                   tokenS = QString::fromStdString(contraingresada.substr(contraingresada.size()-6, contraingresada.size()));
-                   tokencrip= a.EncriptarToken(tokenS.toLong());
-                   //QMessageBox::critical(this, "Error", QString::fromStdString(contraDB+" "+contraLog+" "+tokenS.toStdString()+" "+tokencrip+" "+LeerToken()+" "+nombre+" "+nombreDB));
-                   if(contraDB==contraLog && tokencrip==LeerToken() && nombre==nombreDB){
+    if (query.exec("SELECT * FROM personas")) {
+        while (query.next()) {
+            std::string contraDB, contraLog, tokencrip, contraingresada, nombre, nombreDB;
+            QString tokenS;
+            contraingresada = ui->txcontrasea->text().toStdString();
+            contraDB = query.value(2).toString().toStdString();
+            if(contraingresada.size()>7){
+                nombre=ui->txtusuario->text().toStdString();
+                nombreDB = query.value(1).toString().toStdString();
+                contraLog = contraingresada.substr(0, contraingresada.size()-6);
+                tokenS = QString::fromStdString(contraingresada.substr(contraingresada.size()-6, contraingresada.size()));
+                tokencrip= a.EncriptarToken(tokenS.toLong());
+                //QMessageBox::critical(this, "Error", QString::fromStdString(contraDB+" "+contraLog+" "+tokenS.toStdString()+" "+tokencrip+" "+LeerToken()+" "+nombre+" "+nombreDB));
+                if(contraDB==contraLog && tokencrip==LeerToken() && nombre==nombreDB){
                     a.close();
                     LimpiarEspacios();
                     ui->tabCentral->setTabEnabled(1,true);
@@ -122,6 +123,31 @@ void cframe::MostrarSalidas()
     } else {
         QMessageBox::critical(this, "Query Execution Error", query.lastError().text());
     }
+}
+
+void cframe::RegistrarEmpleado( QString id, QString nombre, QString contra, QString puesto)
+{
+    if (id.length() != 13) {
+        QMessageBox::critical(this, "Error", "ID invalido");
+        return;
+    }
+
+    QSqlQuery query;
+    QString insertValuesSql = "INSERT INTO personas (ID, nombre, contra, puesto) VALUES (:id, :nombre, :contra, :puesto)";
+    query.prepare(insertValuesSql);
+    query.bindValue(":id", id);
+    query.bindValue(":nombre", nombre);
+    query.bindValue(":contra", contra);
+    query.bindValue(":puesto", puesto);
+
+    if (!query.exec()) {
+        QMessageBox::critical(this, "Error", "Verifique la informacion de sus campos: ");
+
+    } else {
+        QMessageBox::information(this, "Exito", "Empleado registrado exitosamente.");
+    }
+
+
 }
 
 void cframe::MostrarEntradas()
