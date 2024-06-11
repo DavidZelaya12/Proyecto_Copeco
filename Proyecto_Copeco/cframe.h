@@ -33,6 +33,7 @@ public:
     QString BuscarPorCodigo(QString codigo);
     int obtenerPrimaryKey();
     bool RestarInsumo(int cantidad);
+    void MostrarUsuarios();
     ~cframe();
 
 private slots:
@@ -51,6 +52,11 @@ private slots:
     void on_CerrarSesion_2_clicked();
 
     void on_TokenBtn_clicked();
+
+    void on_RegistrarUsuarioBTN_clicked();
+
+
+    void on_CerrarSesBTN_clicked();
 
 private:
     void LimpiarEspacios();

@@ -18,7 +18,7 @@ cframe::cframe(QWidget *parent)
     //queryTable();
     ActualizarTablas();
     ui->tabCentral->setTabEnabled(1, false);
-    std::cout<<"hola";
+    std::cout<<"adios";
 }
 
 void cframe::MostrarInventario()
@@ -142,9 +142,14 @@ void cframe::RegistrarEmpleado( QString id, QString nombre, QString contra, QStr
 
     if (!query.exec()) {
         QMessageBox::critical(this, "Error", "Verifique la informacion de sus campos: ");
+        ui->LePuesto_REG->setText("");
+        ui->LeNombre_REG->setText("");
+        ui->LeContrasena_REG->setText("");
+        ui->LeID_REG->setText("");
 
     } else {
         QMessageBox::information(this, "Exito", "Empleado registrado exitosamente.");
+        ActualizarTablas();
     }
 
 
@@ -193,6 +198,7 @@ void cframe::ActualizarTablas()
     MostrarInventario();
     MostrarSalidas();
     MostrarEntradas();
+    MostrarUsuarios();
 }
 
 bool cframe::ModificarInsumo(int cantidad)
@@ -312,6 +318,38 @@ bool cframe::RestarInsumo(int cantidad)
     }
 }
 
+void cframe::MostrarUsuarios()
+{
+    QSqlQuery query;
+    if (query.exec("SELECT * FROM personas")) {
+        // Set up the QTableWidget
+        ui->TABLE_REG->setRowCount(0); // Clear any existing rows
+        ui->TABLE_REG->setColumnCount(3); // Set the number of columns
+        QStringList headers = {"Identidad", "Nombre","Puesto"};
+        ui->TABLE_REG->setHorizontalHeaderLabels(headers);
+
+        int row = 0;
+        while (query.next()) {
+            ui->TABLE_REG->insertRow(row); // Insert a new row
+
+            //   int id = query.value(0).toInt();
+            QString ID = query.value(0).toString();
+            QString nombre = query.value(1).toString();
+            QString puesto = query.value(3).toString();
+
+
+            //  ui->TableInventario->setItem(row, 0, new QTableWidgetItem(QString::number(id)));
+            ui->TABLE_REG->setItem(row, 0, new QTableWidgetItem(ID));
+            ui->TABLE_REG->setItem(row, 1, new QTableWidgetItem(nombre));
+            ui->TABLE_REG->setItem(row, 2, new QTableWidgetItem(puesto));
+
+            row++;
+            // CantInventario++;
+        }
+    } else {
+        QMessageBox::critical(this, "Query Execution Error", query.lastError().text());
+    }
+}
 int cframe::obtenerPrimaryKey()
 {
     int ultimoId = 0;
@@ -660,6 +698,53 @@ std::string cframe::LeerToken()
     {
         QMessageBox::critical(this, "Error", "No se pudo abrir el archivo token_cifrado.txt");
         return NULL;
+    }
+}
+
+
+void cframe::on_RegistrarUsuarioBTN_clicked()
+{
+    QString puesto = ui->LePuesto_REG->text();
+    QString nombre = ui->LeNombre_REG->text();
+    QString Contrasena = ui->LeContrasena_REG->text();
+    QString ID = ui->LeID_REG->text();
+
+
+    if(puesto.size()!=0 &&nombre.size()!=0 && Contrasena.size()!= 0 && ID.size()!=0){
+        if(Contrasena.length() > 4) {
+            RegistrarEmpleado(ID,nombre,Contrasena,puesto);
+
+        } else {
+            QMessageBox::critical(this, "Contraseña Debil", "Ingrese una contraseña mas segura.");
+        }
+
+    }else {
+        QMessageBox::critical(this, "Campo vacio", "Favor llenar todos los campos solicitados.");
+        return;
+    }
+
+
+
+}
+
+
+
+void cframe::on_CerrarSesBTN_clicked()
+{
+    QMessageBox messageBox;
+    messageBox.setWindowTitle("Confirmar Cierre de Sesión");
+    messageBox.setText("¿Estás seguro de que quieres cerrar sesión?");
+    QPushButton *yesButton = messageBox.addButton(tr("Sí"), QMessageBox::YesRole);
+    QPushButton *noButton = messageBox.addButton(tr("No"), QMessageBox::NoRole);
+    messageBox.setIcon(QMessageBox::Question);
+
+    messageBox.exec();
+
+    if (messageBox.clickedButton() == yesButton) {
+        ui->tabCentral->setTabEnabled(0,true);
+        ui->tabCentral->setCurrentIndex(0);
+        ui->tabCentral->setTabEnabled(1,false);
+        LimpiarEspacios();
     }
 }
 
