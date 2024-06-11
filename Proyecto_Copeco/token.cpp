@@ -68,9 +68,7 @@ void Token::SetToken(long Token)
 
 long Token::GenerarToken()
 {
-    long long timestamp = QDateTime::currentSecsSinceEpoch();
-    timestamp=(timestamp/60);
-    long Token = ((timestamp*SeedKey)/(timestamp%10))%1000000;
+    int Token = QRandomGenerator::global()->bounded(100000, 1000000);
     return Token;
 }
 
@@ -82,7 +80,9 @@ void Token::UpdateClock()
 
 void Token::update()
 {
-    int token = GenerarToken();
-    ui->lbl_Token->setText(QString::number(token));
-    SetToken(token);
+    if(ui->lbl_tiempo->text().toStdString()=="60 segundos restantes"){
+        int token = GenerarToken();
+        ui->lbl_Token->setText(QString::number(token));
+        SetToken(token);
+    }
 }

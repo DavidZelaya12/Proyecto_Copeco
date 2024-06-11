@@ -5,6 +5,7 @@
 #include <QDateTime>
 #include <QTimer>
 #include <fstream>
+#include <QRandomGenerator>
 
 namespace Ui {
 class Token;
